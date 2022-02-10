@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+	<title>Arkux</title>
+	<link rel="shortcut icon" href="Arkux.ico" type="image/x-icon" />
+</head>
+<body style="background-color:black;color:white;">
+    <style>
+        .routeNWFB, .routeKMB, .routeLB{
+            padding: 0px 5px;
+            font-family: Arial;
+            font-size: 300%;
+            font-weight: bold;
+            text-align: center;
+            border: 4px solid;
+        }
+        .routeNWFB  {color:white;   background-color: #72a; border-color: #72a;}
+        .routeKMB   {color:white;   background-color: #012; border-color: #012}
+        .routeLB   {color:white;   background-color: #362; border-color: #362}
+
+        .dirNWFB, .dirKMB, .dirLB {
+            padding: 0px 13px;
+            font-size: 200%;
+            text-align: left;
+            font-family: Arial;
+            font-weight: bold;
+            border: 4px solid;
+            background-color:white;
+        }
+        .dirNWFB  {color: #72a; border-color: #72a}
+        .dirKMB   {color: #012; border-color: #012}
+        .dirLB    {color: #362; border-color: #362}
+
+        .stop {
+            background-color: #113;           
+            padding: 4px 5px;
+            font-family: Arial;
+            font-size: 150%;
+            font-family: 'Times New Roman', Times, serif;
+            text-align: right;
+            border: 4px solid #000;
+            text-decoration: none;
+        }
+        
+        .eta {
+            background-color: #113;
+            padding: 4px 5px;
+            color:#aaf;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 150%;
+            font-weight: bold;
+            text-align: center;
+            border: 4px solid #000;
+        }
+
+
+    </style>
+<!--
+    <h2>科大公共交通預計到站時間一覽<br>HKUST Public Transport's Estimated Time of Arrivals at a Glance</h2>
+    <?php
+    function drawBlock($company,$route,$bound){
+        echo "<table border='0'>";
+        echo "<tr><td class='route'>$route</td><td></td>";
+        echo "</table>";
+    }
+
+    ?>
+-->
+
+    <table border="0">
+        <tr>
+            <td class="routeNWFB">792M</td>
+            <td class="dirNWFB" colspan="3">往 西貢</td>
+        </tr>
+        <tr>
+            <td class="stop">香港科技大學</td>
+            <td class="eta">12:09</td><td class="eta">12:30</td><td class="eta">12:47</td>
+        </tr>
+        <tr><td colspan="4"><hr color="white"></td></tr>
+        <tr>
+            <td class="routeNWFB">792M</td>
+            <td class="dirNWFB" colspan="3">往 將軍澳站</td>
+        </tr>
+        <tr>
+            <td class="stop">香港科技大學</td>
+            <td class="eta">12:13</td><td class="eta">12:34</td><td class="eta">12:54</td>
+        </tr>
+        <tr><td colspan="4"><hr color="white"></td></tr>
+        <tr>
+            <td class="routeKMB">91</td>
+            <td class="dirKMB" colspan="3">往 鑽石山站</td>
+        </tr>
+        <tr>
+            <td class="stop">香港科技大學</td>
+            <td class="eta">First</td><td class="eta">Second</td><td class="eta">Third</td>
+        </tr>
+        <tr><td colspan="4"><hr color="white"></td></tr>
+        <tr>
+            <td class="routeKMB">91M</td>
+            <td class="dirKMB" colspan="3">往 鑽石山站</td>
+        </tr>
+        <tr>
+            <td class="stop">香港科技大學</td>
+            <td class="eta">First</td><td class="eta">Second</td><td class="eta">Third</td>
+        </tr>
+        <tr><td colspan="4"><hr color="white"></td></tr>
+        <tr>
+            <td class="routeLB">11M</td>
+            <td class="dirLB" colspan="3">往 坑口站</td>
+        </tr>
+        <tr>
+            <td class="stop">香港科技大學</td>
+            <td class="eta">First</td><td class="eta">Second</td><td class="eta">Third</td>
+        </tr>
+    </table>
+
+    <marquee class="stop" direction="up" behavior="scroll" scrollamount="2" scrolldelay="0" loop="-1" width="600" height="100" hspace="20" vspace="20">
+        第一行12342353465756464352第二行第一行12342353465756464352第二行第一行12342353465756464352第二行第一行12342353465756464352第二行
+        </marquee>
+</body>
+</html>
