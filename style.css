@@ -1,0 +1,129 @@
+@import url('http://fonts.cdnfonts.com/css/digital-7-mono');
+@import url('http://fonts.cdnfonts.com/css/white-bear-lake');
+
+table {
+    text-align:center; 
+    margin-left:auto; 
+    margin-right:auto;
+    border-collapse: separate;
+    border-spacing: 10px;
+    border: 1px solid grey;
+    border-radius: 5px;
+    background-color: rgb(193, 210, 241);
+}
+
+
+button {
+    display:inline-block;
+    height:75px;
+    width:75px;
+    padding:none;
+    font-weight: bold;
+    border: 1px solid grey;
+    border-radius: 5px; 
+    font-weight: bold;
+    transition-duration: 0.1s;
+    cursor: pointer;
+}
+
+button.func{
+    font-family: "Candara";
+    font-size: 20px;
+    height:50px;
+    width:100%;
+    background-color: darkslategray;
+    color: white;
+}
+
+button.operator {
+    font-family: "Century Gothic";
+    font-size: 35px;
+    background-color: darkcyan;
+    color: white;
+}
+
+.disabled {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+button.number{
+    font-family: "Century Gothic";
+    font-size: 35px;
+    background-color: blue;
+    color: white;
+    overflow: auto;
+}
+
+button.comp {
+    background-color: slateblue;
+}
+
+button.selected {
+    border-bottom: 5px solid lightcyan;
+    border-top: 5px solid lightcyan;
+    
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+
+td.target {
+    text-align:center;
+    border: 1px solid grey;
+    border-radius: 5px;
+    height:70px;
+    padding:2px;
+    background-color: black;
+    color: yellow;
+    font-size: 65px;
+    font-family: 'Digital-7 Mono', sans-serif;
+    letter-spacing: 6px;
+    font-weight: bold;
+}
+
+td.scratch {
+    border: 1px solid grey;
+    border-radius: 3px;
+    padding:10px;
+    text-align:center;
+    vertical-align: top;
+    color:black;
+    background:
+    conic-gradient(from 90deg at 1px 1px,#0000 90deg,rgb(235, 235, 235) 0) 
+    0 0/10px 10px;
+    background-color: rgb(255, 255, 255);
+    font-size: 26px;
+    font-family: 'Candara', sans-serif;
+    line-height: 1.5;
+
+}
+
+/*
+td.cell {
+    font-family: "Century Gothic";
+    font-size: 35px;
+    width:70px;
+    background-color: blue;
+    color: white;
+    font-weight: bold;
+}
+
+td.operator {
+    font-family: "Century Gothic";
+    font-size: 35px;
+    background-color: darkcyan;
+    color: white;
+    font-weight: bold;
+}
+
+
+
+
+
+
+hr {
+    border: 1px solid grey;
+}*/
