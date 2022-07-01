@@ -1,3 +1,6 @@
+@import url('http://fonts.cdnfonts.com/css/digital-7-mono');
+@import url('http://fonts.cdnfonts.com/css/white-bear-lake');
+
 table {
     text-align:center; 
     margin-left:auto; 
@@ -21,6 +24,7 @@ button {
     font-weight: bold;
     transition-duration: 0.1s;
     cursor: pointer;
+    user-select: none;
 }
 
 button.func{
@@ -56,9 +60,13 @@ button.comp {
     background-color: slateblue;
 }
 
+button.done {
+    background-color: mediumseagreen;
+}
+
 button.selected {
-    border-bottom: 5px solid lightcyan;
-    border-top: 5px solid lightcyan;
+    border-bottom: 6px solid palevioletred;
+    color:lightpink;
     
 }
 
@@ -76,9 +84,10 @@ td.target {
     background-color: black;
     color: yellow;
     font-size: 65px;
-    font-family: 'Digital-7 Mono', 'Century Gothic';
-    letter-spacing: 2px;
+    font-family: 'Digital-7 Mono', sans-serif;
+    letter-spacing: 6px;
     font-weight: bold;
+    user-select: none;
 }
 
 td.scratch {

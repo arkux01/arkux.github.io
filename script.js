@@ -6,8 +6,9 @@ class NumberSlot {
 
         this.target = 100;
         this.slot = [0,0,0,0,0,0];
-        this.isPrim = [true, true, true, true, true, true];
         this.slotElement = document.getElementsByClassName("number");
+        this.targetElement = document.getElementsByClassName("target")[0];
+        this.availableSlots = 6;
     }
 
     shuffle(){
@@ -38,23 +39,28 @@ class NumberSlot {
         this.shuffle();
         this.slot = this.bigCardPool.slice(0, numBigCards).concat(this.smallCardPool.slice(0, 6 - numBigCards));
 
-        let targetElement = document.getElementsByClassName("target")[0];
         for (let i = 0; i<6; i++){
             this.slotElement[i].innerHTML = this.slot[i];
         }
-        for(let i = 0; i<30000; i++){
+        /*for(let i = 0; i<30000; i++){
             setTimeout(function(){targetElement.innerHTML = Math.floor(Math.random()*900) + 100;}, 100)
-        }
+        }*/
         this.target = Math.floor(Math.random()*900) + 100;
-        targetElement.innerHTML = this.target;
+        this.targetElement.innerHTML = this.target;
+        this.targetElement.style.color = "yellow";
         this.resetAllSlots();
     }
 
-    disableAllSlots(){
+    disableAllSlots(exception){
         for (let slot of this.slotElement){
-            if(!slot.classList.contains("disabled"))
-            slot.classList.add("disabled");
+            if(exception != slot)
+                if(!slot.classList.contains("disabled"))
+                    slot.classList.add("disabled");
         }
+        if(exception){
+            exception.classList.add("done");
+        }
+        this.availableSlots = 0;
     }
 
     resetAllSlots(){
@@ -65,17 +71,26 @@ class NumberSlot {
             slot.classList.remove("selected");
             if(slot.classList.contains("comp"))
             slot.classList.remove("comp");
+            if(slot.classList.contains("done"))
+            slot.classList.remove("done");
         }
+        this.availableSlots = 6;
     }
 
     disableSlot(element){
-        if(!element.classList.contains("disabled"))
+        if(!element.classList.contains("disabled")){
             element.classList.add("disabled");
+            this.availableSlots--;
+        }
+    
     }
 
     enableSlot(element){
-        if(element.classList.contains("disabled"))
+        if(element.classList.contains("disabled")){
             element.classList.remove("disabled");
+            this.availableSlots++;
+        }
+            
     }  
     
     selectSlot(element){
@@ -98,6 +113,12 @@ class NumberSlot {
         slot2.innerHTML = newNum;
         if(!slot2.classList.contains("comp"))
             slot2.classList.add("comp");
+        // alert(newNum + " = " + this.target + "?");
+        let isGameDone = (newNum == this.target);
+        if(isGameDone){
+            this.targetElement.style.color = "lime";
+        }
+        return isGameDone;
     }
 
 }
@@ -232,9 +253,10 @@ class Gameboard {
 
     }
 
-    processState(){
+    processState(slotException = null){
         switch (this.state) {
             case 0:
+                this.card.disableAllSlots(slotException);
                 this.operator.disableAllOperators();
                 break;
             case 1:
@@ -283,12 +305,21 @@ class Gameboard {
                 let result = this.operator.operate(this.operandHeld, this.operatorHeld, element);
                 if(result){
                     this.scratchBoard.addScratch(element.innerHTML);
+                    let isTargetAchieved = this.card.replaceCard(this.operandHeld, element, result);
+                    let isCardExhausted = (this.card.availableSlots <= 1);
+                    if(isTargetAchieved){
+                        this.state = 0;
+                        result = "<font style='border-bottom: 3px double;'>" + result + "</font>"; 
+
+                    } else if (isCardExhausted) {
+                        this.state = 3; 
+                    } else {
+                        this.state = 2;
+                    }
+                    this.processState(element);                    
                     this.scratchBoard.addScratch("=" + result + "<br>");
-                    this.state=2; 
-                    this.card.replaceCard(this.operandHeld, element, result);
                     this.operandHeld = element;
                     this.operatorHeld = false;
-                    this.processState();
                 }
                 break;
             case 4:
