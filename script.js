@@ -30,8 +30,9 @@ class NumberSlot {
         for (let i = 0; i<6; i++){
             this.slotElement[i].innerHTML = this.slot[i];
         }
+        this.targetElement.style.color = "yellow";
+        this.resetAllSlots();
     }
-
     setSlot(numBigCards){
         if (numBigCards == -1){
             numBigCards = Math.floor(Math.random() * 5)
@@ -45,10 +46,24 @@ class NumberSlot {
         /*for(let i = 0; i<30000; i++){
             setTimeout(function(){targetElement.innerHTML = Math.floor(Math.random()*900) + 100;}, 100)
         }*/
-        this.target = Math.floor(Math.random()*900) + 100;
-        this.targetElement.innerHTML = this.target;
-        this.targetElement.style.color = "yellow";
+
         this.resetAllSlots();
+
+        let temp = document.getElementsByClassName("target")[0];
+        var counter = 0;
+
+        this.targetElement.style.color = "yellow"; 
+        var target = Math.floor(Math.random()*900) + 100;
+        this.target = target; 
+        var randomAnimation = setInterval(function(){
+            if(counter < 20){
+                temp.innerHTML = Math.floor(Math.random()*900) + 100;
+                counter++;
+            } else {
+                clearInterval(randomAnimation);
+                temp.innerHTML = target;
+            }
+        }, 20);     
     }
 
     disableAllSlots(){
@@ -113,6 +128,8 @@ class NumberSlot {
         let isGameDone = (newNum == this.target);
         if(isGameDone){
             this.targetElement.style.color = "lime";
+        } else if (this.availableSlots<=1){
+            //this.targetElement.style.color = "lightcoral";
         }
         return isGameDone;
     }
@@ -184,6 +201,8 @@ class HistoryRecorder {
     }
 
 
+
+
 }
 
 class ScratchBoard {
@@ -222,37 +241,42 @@ class Gameboard {
         this.operandHeld = false;
         this.operatorHeld = false;
         this.func = document.getElementsByClassName("func");
+        this.numBigCards = -1;
     }
     
-    reset(){
-        this.card.retry();
+    disableFunc(isRetry){
+        if(!this.func[isRetry].classList.contains("disabled")){
+            this.func[isRetry].classList.add("disabled");
+        }
+    }
+
+    enableFunc(isRetry){
+        if(this.func[isRetry].classList.contains("disabled")){
+            this.func[isRetry].classList.remove("disabled");
+        }
+    }
+
+    reset(isNewGame){
+        if(isNewGame){
+            this.card.setSlot(this.numBigCards);
+        } else {
+            this.card.retry();            
+            this.enableFunc(0);
+        }
+        this.disableFunc(1); 
         this.state = 1;    
-        this.scratchBoard.clearScratch();  
-        this.card.resetAllSlots();
+        this.scratchBoard.clearScratch();
         this.operandHeld = false;
         this.operatorHeld = false;
         this.processState();
     }
 
-    newGame(numBigCards = -1){
-        this.card.setSlot(numBigCards);
-        this.state = 1;    
-        this.scratchBoard.clearScratch();  
-        this.operandHeld = false;
-        this.operatorHeld = false;
-        this.func[1].classList.remove("disabled");
-        this.processState();
-    }
-
-    checkGame(){
-
-
-    }
 
     processState(){
         switch (this.state) {
             case 0:
                 this.card.disableAllSlots();
+                this.enableFunc(0); 
                 this.operator.disableAllOperators();
                 break;
             case 1:
@@ -262,6 +286,8 @@ class Gameboard {
                 this.operator.enableAllOperators();
                 break;
             case 3:
+                this.enableFunc(1);
+                this.disableFunc(0);                
                 this.operator.disableAllOperators();          
                 break;
 
@@ -279,8 +305,8 @@ class Gameboard {
                 break;
             case 2:
                 if (element.classList.contains("number")){
-                    this.card.selectSlot(element);
                     this.card.unselectSlot(this.operandHeld);
+                    this.card.selectSlot(element);
                     this.operandHeld = element;
                 } else {
                     this.scratchBoard.addScratch(this.operandHeld.innerHTML + element.innerHTML);
@@ -306,7 +332,6 @@ class Gameboard {
                     if(isTargetAchieved){
                         this.state = 0;
                         result = "<font style='border-bottom: 3px double;'>" + result + "</font>"; 
-
                     } else if (isCardExhausted) {
                         this.state = 3; 
                     } else {
