@@ -1,5 +1,6 @@
 @import url('https://fonts.cdnfonts.com/css/digital-7-mono');
 @import url('https://fonts.cdnfonts.com/css/white-bear-lake');
+@import url('https://fonts.cdnfonts.com/css/mabook');
 
 table {
     text-align:center; 
@@ -16,7 +17,8 @@ table {
 button {
     display:inline-block;
     height:80px;
-    width:80px;
+    width:auto;
+    min-width:80px;
     padding:none;
     font-weight: bold;
     border: none;
@@ -50,10 +52,10 @@ button.operator {
 
 button.number{
     font-family: "Century Gothic";
-    font-size: 35px;
     background-color: blue;
     color: white;
-    overflow: auto;
+    overflow: hidden;
+    font-size: 35px;
 }
 
 button.comp {
@@ -103,8 +105,8 @@ td.scratch {
     0 0/10px 10px;
     background-color: rgb(255, 255, 255);
     font-size: 26px;
-    font-family: 'Candara', sans-serif;
-    line-height: 1.5;
+    font-family: 'Mabook','Candara', sans-serif;
+    line-height: 1.7;
 
 }
 
