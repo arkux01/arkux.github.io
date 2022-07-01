@@ -84,8 +84,8 @@ td.target {
     background-color: black;
     color: yellow;
     font-size: 65px;
-    font-family: 'Digital-7 Mono', sans-serif;
-    letter-spacing: 6px;
+    font-family: 'Digital-7 Mono', "Century Gothic";
+    letter-spacing: 2px;
     font-weight: bold;
     user-select: none;
 }
