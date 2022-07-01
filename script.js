@@ -51,14 +51,10 @@ class NumberSlot {
         this.resetAllSlots();
     }
 
-    disableAllSlots(exception){
+    disableAllSlots(){
         for (let slot of this.slotElement){
-            if(exception != slot)
-                if(!slot.classList.contains("disabled"))
-                    slot.classList.add("disabled");
-        }
-        if(exception){
-            exception.classList.add("done");
+            if(!slot.classList.contains("disabled"))
+                slot.classList.add("disabled");
         }
         this.availableSlots = 0;
     }
@@ -253,10 +249,10 @@ class Gameboard {
 
     }
 
-    processState(slotException = null){
+    processState(){
         switch (this.state) {
             case 0:
-                this.card.disableAllSlots(slotException);
+                this.card.disableAllSlots();
                 this.operator.disableAllOperators();
                 break;
             case 1:
@@ -316,7 +312,12 @@ class Gameboard {
                     } else {
                         this.state = 2;
                     }
-                    this.processState(element);                    
+                    this.processState();    
+                    if(isTargetAchieved){
+                        element.classList.remove("disabled");
+                        element.classList.remove("selected");
+                        element.classList.add("done");
+                    }                
                     this.scratchBoard.addScratch("=" + result + "<br>");
                     this.operandHeld = element;
                     this.operatorHeld = false;

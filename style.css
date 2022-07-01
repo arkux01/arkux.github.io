@@ -19,7 +19,7 @@ button {
     width:75px;
     padding:none;
     font-weight: bold;
-    border: 1px solid grey;
+    border: none;
     border-radius: 5px; 
     font-weight: bold;
     transition-duration: 0.1s;
@@ -62,12 +62,12 @@ button.comp {
 
 button.done {
     background-color: mediumseagreen;
+    color:white;
 }
 
 button.selected {
-    border-bottom: 6px solid palevioletred;
-    color:lightpink;
-    
+    border-bottom: 6px solid goldenrod;
+    color:lightyellow;
 }
 
 button:hover {
