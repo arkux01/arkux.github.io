@@ -14,6 +14,39 @@ table {
 }
 
 
+.progressbar {
+    width: auto;
+    border: 1px solid grey;
+    border-radius: 4px;
+    background-color: black;
+}
+
+
+.progressbar .inner {
+    height: 10px;
+    width: 100%;
+    border-radius: 3px;
+    animation: progressbar-countdown;
+    animation-duration: 30s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: paused;
+    animation-timing-function: linear;
+}
+
+@keyframes progressbar-countdown {
+    0% {
+        width: 100%;
+        display: inline-block;
+        background: paleturquoise;
+    }
+    100% {
+        width: 0%;
+        display: inline-block;
+        background: lightpink;
+    }
+}
+
 button {
     display:inline-block;
     height:80px;

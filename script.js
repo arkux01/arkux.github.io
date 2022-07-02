@@ -9,6 +9,29 @@ function shuffle(array) {
 
 }
 
+class Timer {
+    constructor(){
+        this.timerElement = document.getElementById("pb");
+        this.timerInner = document.getElementById("pbi");
+    }
+
+    startTimer() {
+        this.timerInner.style.animationPlayState = 'running';
+    }
+
+    pauseTimer() {
+        this.timerInner.style.animationPlayState = 'paused';
+    }
+
+    resetTimer() {
+        this.timerInner.style.animation = "none";
+        this.timerInner.offsetWidth;
+        this.timerInner.style.width = "100%";
+        this.timerInner.style.animation = null;
+    }
+
+}
+
 class NumberSlot {
     constructor(){
 
@@ -35,7 +58,7 @@ class NumberSlot {
         for (let i = 0; i<6; i++){
             this.slotElement[i].innerHTML = this.slot[i];
         }
-        this.targetElement.style.color = "yellow";
+        //this.targetElement.style.color = "yellow";
         this.resetAllSlots();
     }
     setSlot(numBigCards){
@@ -409,6 +432,7 @@ class Gameboard {
         this.operator = new Operator();
         this.setting = new Settings();
         this.solver = new Solver();
+        this.timer = new Timer();
         this.operandHeld = false;
         this.operatorHeld = false;
         this.func = document.getElementsByClassName("func");
@@ -430,13 +454,22 @@ class Gameboard {
     reset(isNewGame){
         this.scratchBoard.clearScratch();        
         if(isNewGame){
+            this.timer.resetTimer();
             this.card.setSlot(this.numBigCards);
             this.solver.set(this.card.target, this.card.slot);
+            var boardCopy = this;
+            this.timer.timerInner.addEventListener("animationend", function(){
+                boardCopy.gotoState(0);
+                boardCopy.enableFunc(2);
+                boardCopy.card.targetElement.style.color = "pink";
+            });
+            this.timer.startTimer();
+            this.disableFunc(0);            
+            this.disableFunc(2);
         } else {
             this.card.retry();
         }
-        this.disableFunc(0);
-        this.enableFunc(2);
+
         this.disableFunc(1); 
         this.disableFunc(3); 
         this.gotoState(1);
@@ -487,7 +520,8 @@ class Gameboard {
                 this.operator.disableAllOperators();
                 this.operandHeld = false;
                 this.operatorHeld = false; 
-                this.enableFunc(0);  
+                this.enableFunc(0); 
+                this.disableFunc(1); 
                 this.disableFunc(2);
                 this.disableFunc(3); 
                 
@@ -567,6 +601,7 @@ class Gameboard {
                 
                 if(isTargetAchieved){
                     this.enableFunc(2);
+                    this.timer.pauseTimer();
                     element.classList.remove("disabled");
                     element.classList.remove("selected");
                     element.classList.add("done");

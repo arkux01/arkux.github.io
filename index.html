@@ -16,13 +16,16 @@
             <td colspan = "6" class="target">---</td>
         </tr>
         <tr>
-            <td colspan = "4" rowspan="4" class="scratch">
+            <td colspan = "4" rowspan="5" class="scratch">
                 
             </td>
+            <td colspan = "2" class="progressbar" id="pb"><div class="inner" id="pbi"></div></td>
+
+
+        </tr>
+        <tr>
             <td><button onclick="board.reset(true)" class="func">New</button></td>
-            <td><button onclick="board.reset(false) "  class="func disabled">Reset</button></td>
-
-
+            <td><button onclick="board.reset(false) "  class="func disabled">Reset</button></td>      
         </tr>
         <tr>
             <td><button onclick = "board.showSolution()" class="func disabled">Solver</button></td>
