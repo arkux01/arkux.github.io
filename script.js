@@ -61,7 +61,7 @@ class NumberSlot {
         //this.targetElement.style.color = "yellow";
         this.resetAllSlots();
     }
-    setSlot(numBigCards){
+    setSlot(numBigCards, timer){
         if (numBigCards == -1){
             numBigCards = Math.floor(Math.random() * 5)
         }
@@ -91,6 +91,7 @@ class NumberSlot {
             } else {
                 clearInterval(randomAnimation);
                 temp.innerHTML = target;
+                timer.startTimer();
             }
         }, 20);     
     }
@@ -455,15 +456,15 @@ class Gameboard {
         this.scratchBoard.clearScratch();        
         if(isNewGame){
             this.timer.resetTimer();
-            this.card.setSlot(this.numBigCards);
+            this.card.setSlot(this.numBigCards, this.timer);
             this.solver.set(this.card.target, this.card.slot);
             var boardCopy = this;
             this.timer.timerInner.addEventListener("animationend", function(){
                 boardCopy.gotoState(0);
                 boardCopy.enableFunc(2);
                 boardCopy.card.targetElement.style.color = "pink";
+                
             });
-            this.timer.startTimer();
             this.disableFunc(0);            
             this.disableFunc(2);
         } else {
