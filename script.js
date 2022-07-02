@@ -183,7 +183,6 @@ class Solver {
         this.target = target;
         if(numbers){
             this.numbers = numbers.slice();
-            shuffle(this.numbers);
         }
             
         this.solutionScratch = [];
@@ -256,6 +255,8 @@ class Solver {
             Formal solving process starts here.
         */
         this.solved = false;
+        shuffle(this.numbers);
+        this.solutionScratch = [];
         for(let i = 0; i<6; i++){
             if(this.solve(i))
                 break;
@@ -431,12 +432,11 @@ class Gameboard {
         if(isNewGame){
             this.card.setSlot(this.numBigCards);
             this.solver.set(this.card.target, this.card.slot);
-            this.disableFunc(2);
         } else {
-            this.card.retry();            
-            this.enableFunc(0);
-            this.enableFunc(2);
+            this.card.retry();
         }
+        this.disableFunc(0);
+        this.enableFunc(2);
         this.disableFunc(1); 
         this.disableFunc(3); 
         this.gotoState(1);
@@ -472,9 +472,7 @@ class Gameboard {
         }
         
         if(this.card.availableSlots==6){
-            this.enableFunc(0); 
             this.disableFunc(1); 
-            this.enableFunc(2);
             this.disableFunc(3); 
         }
     }
@@ -521,7 +519,7 @@ class Gameboard {
         if(solution)
             this.scratchBoard.addScratch(solution);
         else
-            this.scratchBoard.addScratch("Oops! There is no solution <br> within " + (this.target-5) + " and " + (this.target+5) + "! :(");
+            this.scratchBoard.addScratch("Oops! There is no solution <br> within " + (this.card.target-5) + " and " + (this.card.target+5) + "! :(");
     }
 
     onclick(element){
