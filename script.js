@@ -181,8 +181,11 @@ class Solver {
 
     set(target,numbers=false){
         this.target = target;
-        if(numbers)
-            this.numbers = numbers;
+        if(numbers){
+            this.numbers = numbers.slice();
+            shuffle(this.numbers);
+        }
+            
         this.solutionScratch = [];
         this.solved = false;
     }
@@ -211,7 +214,6 @@ class Solver {
     */
     solve(depth = 5, numbers = this.numbers, target = this.target){           //[1, 2, 3, 4, 5, 6]
         this.solutionScratch = [];
-        shuffle(numbers);
         let numbersSize = numbers.length;
         if(depth == 0){
             return numbers.includes(target);
@@ -225,8 +227,10 @@ class Solver {
                     if(!result) // Invalid Operation
                         continue;
                     let newNumbers = numbers.slice();
-                    newNumbers[i] = result;
+                    //newNumbers[i] = result;
                     newNumbers.splice(j, 1);
+                    newNumbers.splice(i, 1);
+                    newNumbers.unshift(result);
                     let recur = this.solve(depth-1,newNumbers, target);
                     if(!recur) // Subproblem cannot be solved
                         continue;
