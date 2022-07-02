@@ -427,6 +427,7 @@ class Gameboard {
         if(isNewGame){
             this.card.setSlot(this.numBigCards);
             this.solver.set(this.card.target, this.card.slot);
+            this.disableFunc(2);
         } else {
             this.card.retry();            
             this.enableFunc(0);
