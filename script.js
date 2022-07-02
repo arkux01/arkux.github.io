@@ -1,3 +1,14 @@
+function shuffle(array) {
+    let shuffleTimes = Math.floor(Math.random()*4)+1;
+    for(let time = 0; time<shuffleTimes ;time++){
+        for (let i = array.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }        
+    }
+
+}
+
 class NumberSlot {
     constructor(){
 
@@ -19,20 +30,6 @@ class NumberSlot {
         this.availableSlots = counter;
     }
 
-    shuffle(){
-        for (let i = this.bigCardPool.length - 1; i > 0; i--) {
-            let j = Math.floor(Math.random() * (i + 1));
-            let temp = this.bigCardPool[i];
-            this.bigCardPool[i] = this.bigCardPool[j];
-            this.bigCardPool[j] = temp;
-        }
-        for (let i = this.smallCardPool.length - 1; i > 0; i--) {
-            let j = Math.floor(Math.random() * (i + 1));
-            let temp = this.smallCardPool[i];
-            this.smallCardPool[i] = this.smallCardPool[j];
-            this.smallCardPool[j] = temp;
-        }
-    }
 
     retry(){
         for (let i = 0; i<6; i++){
@@ -45,7 +42,8 @@ class NumberSlot {
         if (numBigCards == -1){
             numBigCards = Math.floor(Math.random() * 5)
         }
-        this.shuffle();
+        shuffle(this.bigCardPool);
+        shuffle(this.smallCardPool);
         this.slot = this.bigCardPool.slice(0, numBigCards).concat(this.smallCardPool.slice(0, 6 - numBigCards));
 
         for (let i = 0; i<6; i++){
@@ -172,6 +170,121 @@ class NumberSlot {
 
 }
 
+class Solver {
+    constructor(target=0, numbers=[0,0,0,0,0,0]){
+        this.target = target;
+        this.numbers = numbers;
+        this.operators = ["÷","÷","-","-","+","×"]
+        this.solutionScratch = [];
+        this.solved = false;
+    }
+
+    set(target,numbers=false){
+        this.target = target;
+        if(numbers)
+            this.numbers = numbers;
+        this.solutionScratch = [];
+        this.solved = false;
+    }
+
+    operate(num1, num2, mode){
+        switch (mode){
+            case 0: 
+                return (num1 % num2 == 0)? num1/num2:0;
+            case 1:
+                return (num2 % num1 == 0)? num2/num1:0;
+            case 2: 
+                return Math.max(num1-num2,0);
+            case 3: 
+                return Math.max(num2-num1,0);
+            case 4:
+                return num1+num2;
+            case 5:
+                return num1*num2;
+            default:
+                return 0; 
+        }
+    }
+
+    /*
+        The recursive sub-routine on solving the number's game.
+    */
+    solve(depth = 5, numbers = this.numbers, target = this.target){           //[1, 2, 3, 4, 5, 6]
+        this.solutionScratch = [];
+        shuffle(numbers);
+        let numbersSize = numbers.length;
+        if(depth == 0){
+            return numbers.includes(target);
+        }
+        for (let i = 0; i < numbersSize; i ++){
+            for(let j = i + 1; j < numbersSize;j++){
+                let operationOrder = [0,1,2,3,4,5];
+                shuffle(operationOrder);
+                for (let mode of operationOrder){
+                    let result = this.operate(numbers[i],numbers[j],mode);
+                    if(!result) // Invalid Operation
+                        continue;
+                    let newNumbers = numbers.slice();
+                    newNumbers[i] = result;
+                    newNumbers.splice(j, 1);
+                    let recur = this.solve(depth-1,newNumbers, target);
+                    if(!recur) // Subproblem cannot be solved
+                        continue;
+                    switch(mode){
+                        case 0: case 2:case 4: case 5:
+                            this.solutionScratch.unshift(numbers[i]+this.operators[mode]+numbers[j]+"="+result);
+                            break;
+                        case 1: case 3:
+                            this.solutionScratch.unshift(numbers[j]+this.operators[mode]+numbers[i]+"="+result);
+                            break;
+                    }
+                    this.solved = true;
+                    return true;
+                }
+                
+            }
+        }
+        return false;
+    }
+
+    optimalSolve(){
+        /*
+            Formal solving process starts here.
+        */
+        this.solved = false;
+        for(let i = 0; i<6; i++){
+            if(this.solve(i))
+                break;
+        }
+        /*
+            If the exact target cannot be obtained, try using smaller depths to
+            achieve as close to the target as possible.
+        */
+       
+        if(!this.solved){
+            let noise = Math.floor(Math.random()*2)*2-1;
+            let newDepth = 0, newTarget = 0;
+            for(let error = 6; error < 36; error++){
+                newDepth = error % 6;
+                newTarget = this.target + (error-newDepth)/6 * noise;
+                if(this.solve(newDepth,this.numbers,newTarget))
+                    break;
+                newTarget = this.target - (error-newDepth)/6 * noise;
+                if(this.solve(newDepth,this.numbers,newTarget))
+                    break;
+            }
+        }
+        return this.solutionToString();
+
+    }
+
+    solutionToString(){
+        if(this.solved)
+            return "<font style=\"color:blue;\">"+this.solutionScratch.join('<br>')+"</font>";
+        return false;
+    }
+}
+
 class Operator {
 
     constructor(){
@@ -238,6 +351,19 @@ class HistoryRecorder {
 
 }
 
+class Settings {
+    constructor(){
+        this.isHidden = true;
+        this.numBigCards = [true,true,true,true,true];
+        this.showGameInfo = false;
+        this.showSol = false;
+        this.showTimer = false;
+        this.showManual = false;
+    }
+
+
+}
+
 class ScratchBoard {
     constructor(){
         this.scratchBoardElement = document.getElementsByClassName("scratch")[0];
@@ -268,30 +394,31 @@ class Gameboard {
     constructor(){
         this.state = 0;
         // state could be:
-        // 0 - No ongoing game. e.g. initial state. Disable all buttons.
+        // 0 - No ongoing game. e.g. first time loading / a game just finished. Disable all buttons.
         // 1 - Ongoing game, no element selected. Disable all operators.
         // 2 - Ongoing game, first operand selected.
         // 3 - Ongoing game, operator selected. Disable all operators.
-        // 4 - Ongoing game, second operand selected and proceed to check.
         this.card = new NumberSlot();
         this.scratchBoard = new ScratchBoard();
         this.history = new HistoryRecorder();
         this.operator = new Operator();
+        this.setting = new Settings();
+        this.solver = new Solver();
         this.operandHeld = false;
         this.operatorHeld = false;
         this.func = document.getElementsByClassName("func");
         this.numBigCards = -1;
     }
     
-    disableFunc(isRetry){
-        if(!this.func[isRetry].classList.contains("disabled")){
-            this.func[isRetry].classList.add("disabled");
+    disableFunc(i){
+        if(!this.func[i].classList.contains("disabled")){
+            this.func[i].classList.add("disabled");
         }
     }
 
-    enableFunc(isRetry){
-        if(this.func[isRetry].classList.contains("disabled")){
-            this.func[isRetry].classList.remove("disabled");
+    enableFunc(i){
+        if(this.func[i].classList.contains("disabled")){
+            this.func[i].classList.remove("disabled");
         }
     }
 
@@ -299,52 +426,56 @@ class Gameboard {
         this.scratchBoard.clearScratch();        
         if(isNewGame){
             this.card.setSlot(this.numBigCards);
+            this.solver.set(this.card.target, this.card.slot);
         } else {
             this.card.retry();            
             this.enableFunc(0);
+            this.enableFunc(2);
         }
         this.disableFunc(1); 
         this.disableFunc(3); 
-        this.processState(1);
+        this.gotoState(1);
     }
 
     undo(){
         switch (this.state) {
             case 0:
-                break;
+                return;
             case 1:case 2: case 4:
                 this.scratchBoard.undoScratch();
                 this.scratchBoard.undoScratch();
                 this.scratchBoard.undoScratch();                
                 this.card.recallCheckpoint(this.history.popArchive());
-                this.processState(1);
+                this.gotoState(1);
 
                 break;
             /*case 2: case 4:
 
-                break;*/
+                return;*/
             case 3:
                 //let held = this.operandHeld.innerHTML + this.operatorHeld.innerHTML;
                 this.scratchBoard.undoScratch();
                 this.card.unselectSlot(this.operandHeld);
-                this.processState(1);             
+                this.gotoState(1);
                 break;
-            case 4:
+            //case 4:
                 /*this.scratchBoard.undoScratch();
                 this.scratchBoard.undoScratch();
 
-                this.processState(1); 
-                break;*/
+                this.gotoState(1); 
+                return;*/
         }
+        
         if(this.card.availableSlots==6){
             this.enableFunc(0); 
             this.disableFunc(1); 
+            this.enableFunc(2);
             this.disableFunc(3); 
         }
     }
 
 
-    processState(state = this.state){
+    gotoState(state = this.state){
         this.state = state;
         switch (state) {
             case 0:
@@ -353,7 +484,8 @@ class Gameboard {
                 this.operator.disableAllOperators();
                 this.operandHeld = false;
                 this.operatorHeld = false; 
-                this.enableFunc(0); 
+                this.enableFunc(0);  
+                this.disableFunc(2);
                 this.disableFunc(3); 
                 
                 break;
@@ -377,18 +509,28 @@ class Gameboard {
         }
     }
 
+    showSolution(){    
+        this.reset(false);
+        this.gotoState(0);
+        let solution = this.solver.optimalSolve();
+        if(solution)
+            this.scratchBoard.addScratch(solution);
+        else
+            this.scratchBoard.addScratch("Oops! There is no solution <br> within " + (this.target-5) + " and " + (this.target+5) + "! :(");
+    }
+
     onclick(element){
         switch (this.state) {
             case 1:
                 this.card.selectSlot(element);
                 this.operandHeld = element;
-                this.processState(2);
+                this.gotoState(2);
                 return;
             case 2:
                 if (element.classList.contains("number")){
                     this.card.unselectSlot(this.operandHeld);
                     if(this.operandHeld == element){
-                        this.processState(1);
+                        this.gotoState(1);
                         return;
                     }
                     this.card.selectSlot(element);
@@ -396,39 +538,42 @@ class Gameboard {
                 } else {
                     this.scratchBoard.addScratch(this.operandHeld.innerHTML + element.innerHTML);
                     this.operatorHeld = element;
-                    this.processState(3);
+                    this.gotoState(3);
                 }
-                break;
+                return;
             case 3:
-                if(this.operandHeld==element)
-                    break;
-                let result = this.operator.operate(this.operandHeld, this.operatorHeld, element);
-                if(result){
-
-                    this.history.archiveCard(this.card.generateCheckpoint());
-                    this.scratchBoard.addScratch(element.innerHTML);
-                    let isTargetAchieved = this.card.replaceCard(this.operandHeld, element, result);
-
-                    let isCardExhausted = (this.card.availableSlots <= 1);
-                    if(isTargetAchieved){
-                        this.processState(0);
-                    } else if (isCardExhausted) {
-                        this.processState(4);
-                    } else {
-                        this.processState(2);
-                    }   
-                    if(isTargetAchieved){
-                        element.classList.remove("disabled");
-                        element.classList.remove("selected");
-                        element.classList.add("done");
-                        result = "<font style='border-bottom: 3px double;'>" + result + "</font>"; 
-                    }                
-                    this.scratchBoard.addScratch("=" + result + "<br>");
-                    this.operandHeld = element;
+                if(this.operandHeld==element){
+                    this.undo();
+                    return;
                 }
-                break;
+
+                let result = this.operator.operate(this.operandHeld, this.operatorHeld, element);
+                if(!result)
+                    return;
+                this.history.archiveCard(this.card.generateCheckpoint());
+                this.scratchBoard.addScratch(element.innerHTML);
+                let isTargetAchieved = this.card.replaceCard(this.operandHeld, element, result);
+
+                let isCardExhausted = (this.card.availableSlots <= 1);
+                if(isTargetAchieved)
+                    this.gotoState(0);
+                else if (isCardExhausted)
+                    this.gotoState(4);
+                else
+                    this.gotoState(2);
+                
+                if(isTargetAchieved){
+                    this.enableFunc(2);
+                    element.classList.remove("disabled");
+                    element.classList.remove("selected");
+                    element.classList.add("done");
+                    result = "<font style='border-bottom: 3px double;'>" + result + "</font>"; 
+                }                
+                this.scratchBoard.addScratch("=" + result + "<br>");
+                this.operandHeld = element;
+                return;
             case 4:
-                break;
+                return;
         }
     }
 

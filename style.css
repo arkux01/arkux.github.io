@@ -32,7 +32,7 @@ button {
 button.func{
     font-family: "Candara";
     font-size: 20px;
-    height:50px;
+    height:42px;
     width:100%;
     background-color: darkslategray;
     color: white;
@@ -106,7 +106,8 @@ td.scratch {
     background-color: rgb(255, 255, 255);
     font-size: 26px;
     font-family: 'Mabook','Candara', sans-serif;
-    line-height: 1.7;
+    line-height: 1.5;
+    user-select: none;
 
 }
 
