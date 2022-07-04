@@ -10,8 +10,8 @@
                 
     <title>Countdown</title>
 </head>
-<body>
-    <table>
+<body>   
+    <table id="interface">
         <tr>
             <td colspan = "6" class="target">---</td>
         </tr>
@@ -24,12 +24,12 @@
 
         </tr>
         <tr>
-            <td><button onclick="board.reset(true)" class="func">New</button></td>
-            <td><button onclick="board.reset(false) "  class="func disabled">Reset</button></td>      
+            <td><button onclick="board.reset(true)" class="func"><img src="icons/puzzle-piece.svg"/></button></td>
+            <td><button onclick="board.reset(false) "  class="func disabled"><img src="icons/eraser.svg"/></button></td>      
         </tr>
         <tr>
-            <td><button onclick = "board.showSolution()" class="func disabled">Solver</button></td>
-            <td><button onclick = "board.undo(this)" class="func disabled">Back</button></td>            
+            <td><button onclick = "board.showSolution()" class="func disabled"><img src="icons/lightbulb.svg"/></button></td>
+            <td><button onclick = "board.undo(this)" class="func disabled"><img src="icons/backward.svg"/></button></td>            
         </tr>
         <tr>
             <td><button class="operator disabled" onclick = "board.onclick(this)" >×</button></td>
@@ -50,9 +50,11 @@
         </tr>
 
     </table>
-	<!-- hitwebcounter Code START -->
+
+    <!-- hitwebcounter Code START -->
 	<a href="https://www.hitwebcounter.com" target="_blank">
-	<img src="https://hitwebcounter.com/counter/counter.php?page=8010010&style=0008&nbdigits=5&type=ip&initCount=0" title="Free Counter" Alt="web counter"   border="0" /></a>                 
-    <script src="script.js"></script>
+        <img src="https://hitwebcounter.com/counter/counter.php?page=8010010&style=0008&nbdigits=5&type=ip&initCount=0" title="Free Counter" Alt="web counter"   border="0" /></a>                 
+     
+	<script src="script.js"></script>
 </body>
 </html>

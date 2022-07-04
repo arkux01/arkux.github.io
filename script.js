@@ -201,6 +201,7 @@ class Solver {
         this.operators = ["÷","÷","-","-","+","×"]
         this.solutionScratch = [];
         this.solved = false;
+        this.perfectlySolved = false;
     }
 
     set(target,numbers=false){
@@ -257,6 +258,8 @@ class Solver {
                     let recur = this.solve(depth-1,newNumbers, target);
                     if(!recur) // Subproblem cannot be solved
                         continue;
+                    if(result==this.target)
+                        result = "<font style='border-bottom: 3px double;'>" + result + "</font>"; 
                     switch(mode){
                         case 0: case 2:case 4: case 5:
                             this.solutionScratch.unshift(numbers[i]+this.operators[mode]+numbers[j]+"="+result);
@@ -279,11 +282,15 @@ class Solver {
             Formal solving process starts here.
         */
         this.solved = false;
+        this.perfectlySolved = false;
         shuffle(this.numbers);
         this.solutionScratch = [];
         for(let i = 0; i<6; i++){
-            if(this.solve(i))
+            if(this.solve(i)){
+                this.perfectlySolved = true;
                 break;
+            }
+                
         }
         /*
             If the exact target cannot be obtained, try using smaller depths to
@@ -309,7 +316,7 @@ class Solver {
 
     solutionToString(){
         if(this.solved)
-            return "<font style=\"color:blue;\">"+this.solutionScratch.join('<br>')+"</font>";
+            return this.solutionScratch.join('<br>');
         return false;
     }
 }
@@ -548,13 +555,23 @@ class Gameboard {
     }
 
     showSolution(){    
+        let currentScratch = this.scratchBoard.scratchBoardElement.innerHTML;
         this.reset(false);
         this.gotoState(0);
         let solution = this.solver.optimalSolve();
-        if(solution)
-            this.scratchBoard.addScratch(solution);
-        else
-            this.scratchBoard.addScratch("Oops! There is no solution <br> within " + (this.card.target-5) + " and " + (this.card.target+5) + "! :(");
+        let color = "";
+        if(!solution){
+            solution = `There is no solution within <br> ${this.card.target-5} and ${this.card.target+5}! :(`;
+            color = "gray";
+        } else if (this.solver.perfectlySolved){
+            color = "darkblue";
+        } else {
+            color = "firebrick";
+        }
+        //let solStyle = (currentScratch?`border-left: 2px solid ${color};`:"")+`color:${color};`;
+        let solStyle =`color:${color};border: 2px solid;border-radius:5px;`;
+        let inner = `<table class="sol"><tr><td>${currentScratch}</td><td style="${solStyle}">${solution}</td></tr></table>`;
+        this.scratchBoard.addScratch(inner);
     }
 
     onclick(element){
