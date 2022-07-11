@@ -19,7 +19,7 @@ td img {
 }
 
 .progressbar {
-    border: 1px solid steelblue;
+    border: 1px solid #55c;
     border-radius: 5px;
     background-color: rgba(127,127,127,0.2);
 }
