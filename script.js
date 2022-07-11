@@ -438,7 +438,7 @@ class Settings {
         buttons[1].disabled = !toHard;
         bg.style.backgroundColor = toHard? "rgb(241, 210, 210)":"rgb(193, 210, 241)";
         bg.style.borderColor = toHard? "brown":"darkcyan";
-        pb.style.borderColor = toHard? "brown":"darkcyan";
+        pb.style.borderColor = toHard? "#c55":"#55c";
         pbi.style.backgroundColor = toHard? "#c55":"#55c";
         st.style.backgroundColor = toHard? "rgba(200,0,0,0.2)":"rgba(0,0,200,0.2)";
     }
