@@ -17,19 +17,29 @@
         </tr>
         <tr>
             <td colspan = "4" rowspan="5" class="scratch">
-                
+                <div id="setting">
+                    <div style="font-weight: bold;font-size:18px;text-align: center;">Settings</div>
+                    <br><br>
+                    Hard mode: <button class="mode" id="hardOn" onclick="board.setting.setMode(true);">ON</button>
+                                <button disabled class="mode" id="hardOff" onclick="board.setting.setMode(false);">OFF</button>
+                    <br><br><br>
+                    <br><br><br>                   
+
+
+                </div>
             </td>
-            <td colspan = "2" class="progressbar" id="pb"><div class="inner" id="pbi"></div></td>
-
-
-        </tr>
-        <tr>
             <td><button onclick="board.reset(true)" class="func"><img src="icons/puzzle-piece.svg"/></button></td>
-            <td><button onclick="board.reset(false) "  class="func disabled"><img src="icons/eraser.svg"/></button></td>      
+            <td><button onclick="board.reset(false) "  class="func disabled"><img src="icons/eraser.svg"/></button></td>
+            
+
+
         </tr>
         <tr>
             <td><button onclick = "board.showSolution()" class="func disabled"><img src="icons/lightbulb.svg"/></button></td>
-            <td><button onclick = "board.undo(this)" class="func disabled"><img src="icons/backward.svg"/></button></td>            
+            <td><button onclick = "board.undo(this)" class="func disabled"><img src="icons/backward.svg"/></button></td> 
+        </tr>
+        <tr>
+            <td colspan = "2" class="progressbar" id="pb"><div class="inner" id="pbi"></div></td>
         </tr>
         <tr>
             <td><button class="operator disabled" onclick = "board.onclick(this)" >×</button></td>
@@ -49,8 +59,18 @@
             <td><button class="number disabled" onclick = "board.onclick(this)"></button></td>
         </tr>
 
-    </table>
+        <!--
+        <tr id="setting">
+            <td colspan="6">
+                123
+            </td>
+        </tr>            
+        -->
 
+    </table>
+    <div id="debug">
+        testing
+    </div>
     <!-- hitwebcounter Code START -->
 	<a href="https://www.hitwebcounter.com" target="_blank">
         <img src="https://hitwebcounter.com/counter/counter.php?page=8010010&style=0008&nbdigits=5&type=ip&initCount=0" title="Free Counter" Alt="web counter"   border="0" /></a>                 

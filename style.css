@@ -8,7 +8,7 @@
     margin-right:auto;
     border-collapse: separate;
     border-spacing: 10px;
-    border: 1px solid grey;
+    border: 1px solid darkcyan;
     border-radius: 5px;
     background-color: rgb(193, 210, 241);
 }
@@ -19,16 +19,17 @@ td img {
 }
 
 .progressbar {
-    border: 1px solid grey;
-    border-radius: 4px;
-    background-color: black;
+    border: 1px solid steelblue;
+    border-radius: 3px;
+    background-color: rgba(127,127,127,0.2);
 }
 
 
 .progressbar .inner {
-    height: 10px;
+    height: 6px;
     width: 100%;
     border-radius: 3px;
+    background-color: #55c;
     animation: progressbar-countdown;
     animation-duration: 30s;
     animation-iteration-count: 1;
@@ -41,16 +42,45 @@ td img {
     0% {
         width: 100%;
         display: inline-block;
-        background: paleturquoise;
     }
     100% {
         width: 0%;
         display: inline-block;
-        background: lightpink;
     }
 }
 
-button {
+#hardOn, #hardOff {
+    display:inline-block;
+    border: 2px solid grey;
+    height: 40px;
+    width: 55px;
+    background-color: rgba(0,0,0,0.1);
+    color:grey;
+    border-radius: 5px;
+    margin:3px;
+    font-size:16px;
+}
+
+
+
+#hardOn:disabled{
+    border-color: red;
+    color:red;
+    font-weight: bold;
+    background-color: rgba(255,200,200,0.4);
+    pointer-events: none;
+}
+
+#hardOff:disabled{
+    border-color:blue;
+    color:blue;
+    font-weight: bold;
+    background-color: rgba(200,200,255,0.4);
+    pointer-events: none;
+}
+
+
+button.func, button.operator, button.number, button.comp, button.done, button.selected {
     display:inline-block;
     height:80px;
     width:auto;
@@ -81,7 +111,7 @@ button.operator {
     color: white;
 }
 
-.disabled {
+button.disabled {
     opacity: 0.2;
     pointer-events: none;
 }
@@ -130,9 +160,10 @@ td.target {
 }
 
 td.scratch {
-    border: 1px solid grey;
+    border: none;
     border-radius: 3px;
     padding:10px;
+    max-width: 100px;
     text-align:center;
     vertical-align: top;
     color:black;
@@ -160,6 +191,23 @@ td.column {
     float: left;
     width: 50%;
 }
+
+#setting{
+    text-align: left;
+    font-family: "Century Gothic",sans-serif;
+    margin:5px;
+    border-radius: 5px;
+    padding:10px;
+    font-size:16px;
+    line-height: 1.4;
+    background-color: rgba(0,0,200,0.2);
+}
+
+#debug {
+    display: none;
+}
+
+
 
 
 /*

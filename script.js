@@ -9,6 +9,7 @@ function shuffle(array) {
 
 }
 
+
 class Timer {
     constructor(){
         this.timerElement = document.getElementById("pb");
@@ -43,6 +44,8 @@ class NumberSlot {
         this.slotElement = document.getElementsByClassName("number");
         this.targetElement = document.getElementsByClassName("target")[0];
         this.availableSlots = 6;
+
+        this.hardPlaceholders = {"A":0, "B":0, "C":0, "D":0 ,"E":0};
     }
 
     updateAvailableSlots(){
@@ -82,11 +85,11 @@ class NumberSlot {
         var counter = 0;
 
         this.targetElement.style.color = "yellow"; 
-        var target = Math.floor(Math.random()*900) + 100;
+        var target = Math.floor(Math.random()*899) + 101;
         this.target = target; 
         var randomAnimation = setInterval(function(){
             if(counter < 20){
-                temp.innerHTML = Math.floor(Math.random()*900) + 100;
+                temp.innerHTML = Math.floor(Math.random()*899) + 101;
                 counter++;
             } else {
                 clearInterval(randomAnimation);
@@ -97,19 +100,22 @@ class NumberSlot {
     }
 
     generateCheckpoint(){
-        let content = [], isComp = [];
+        let content = [], isComp = [], intermedResult = {};
         for(let slot of this.slotElement){
             content.push(slot.innerHTML);
             isComp.push(slot.classList.contains("comp"));
         }
+        for(let intermedKey in this.hardPlaceholders){
+            intermedResult[intermedKey] = this.hardPlaceholders[intermedKey];
+        }
 
-        return [content, isComp];
+        return [content, isComp, intermedResult];
     }
 
     recallCheckpoint(checkpoint){
         if(!checkpoint)
             return false;
-        let content = checkpoint[0], isComp = checkpoint[1];
+        let content = checkpoint[0], isComp = checkpoint[1], intermedResult = checkpoint[2];
         this.resetAllSlots();
         for(let i = 0; i < 6; i++){
             this.slotElement[i].innerHTML = content[i];
@@ -120,6 +126,7 @@ class NumberSlot {
             if(isComp[i])
                 this.slotElement[i].classList.add("comp");
         }
+        this.hardPlaceholders=intermedResult;
         this.updateAvailableSlots();
         return true;
     }
@@ -144,6 +151,7 @@ class NumberSlot {
             slot.classList.remove("done");
         }
         this.availableSlots = 6;
+        this.hardPlaceholders = {"A":0, "B":0, "C":0, "D":0 ,"E":0};
     }
 
     disableSlot(element){
@@ -172,24 +180,37 @@ class NumberSlot {
             element.classList.remove("selected");
     }
 
-    replaceCard(slot1, slot2, newNum){
+    replaceCard(slot1, slot2, newNum, hard = false){
+        /*alert(`${this.hardPlaceholders["A"]},${this.hardPlaceholders["B"]},${this.hardPlaceholders["C"]},
+        ${this.hardPlaceholders["D"]},${this.hardPlaceholders["E"]}`);*/
         if(slot1.classList.contains("comp"))
         slot1.classList.remove("comp");
         this.unselectSlot(slot1);
         this.disableSlot(slot1);
         this.selectSlot(slot2);
         slot1.innerHTML = "";
-        slot2.innerHTML = newNum;
+        let numDisplay = newNum, p = false;
+        if(hard){
+            for(p in this.hardPlaceholders){
+                if(this.hardPlaceholders[p] == 0){
+                    this.hardPlaceholders[p] = numDisplay;
+                    numDisplay = p;
+                    break;                    
+                }
+            }
+        }
+        slot2.innerHTML = numDisplay;
         if(!slot2.classList.contains("comp"))
             slot2.classList.add("comp");
-        // alert(newNum + " = " + this.target + "?");
+
         let isGameDone = (newNum == this.target);
         if(isGameDone){
+            slot2.innerHTML = newNum;
             this.targetElement.style.color = "lime";
         } else if (this.availableSlots<=1){
             //this.targetElement.style.color = "lightcoral";
         }
-        return isGameDone;
+        return [isGameDone, p];
     }
 
 }
@@ -343,6 +364,8 @@ class Operator {
     }
 
     isValidOperation(num1, Op, num2){
+        if(num1*num2 == 0)
+            return false;
         if (Op=="-") {
             return (num1 > num2);
         }
@@ -352,8 +375,13 @@ class Operator {
         return true;
     }
 
-    operate(slot1, operator, slot2) {
-        let num1 = parseInt(slot1.innerHTML), Op = operator.innerHTML, num2 = parseInt(slot2.innerHTML);
+    operate(slot1, operator, slot2, placeholders = {"A":0,"B":0,"C":0,"D":0,"E":0}) {
+        let s1 = slot1.innerHTML, s2 = slot2.innerHTML, keys = ["A","B","C","D","E"];
+        if(keys.includes(s1))
+            s1 = placeholders[s1];
+        if(keys.includes(s2))
+            s2 = placeholders[s2];
+        let num1 = parseInt(s1), Op = operator.innerHTML, num2 = parseInt(s2);
         if (!this.isValidOperation(num1, Op, num2))
             return false;
         switch (Op){
@@ -395,7 +423,27 @@ class Settings {
         this.showSol = false;
         this.showTimer = false;
         this.showManual = false;
+        this.hideIntermediateResult = false;
+        this.canGoBack = true;
     }
+
+    setMode(toHard) {
+        let buttons = document.getElementsByClassName("mode");
+        let bg = document.getElementById("interface"),
+            pb = document.getElementsByClassName("progressbar")[0],
+            pbi = document.getElementsByClassName("inner")[0],
+            st = document.getElementById("setting");
+        this.hideIntermediateResult = toHard;
+        buttons[0].disabled = toHard;
+        buttons[1].disabled = !toHard;
+        bg.style.backgroundColor = toHard? "rgb(241, 210, 210)":"rgb(193, 210, 241)";
+        bg.style.borderColor = toHard? "brown":"darkcyan";
+        pb.style.borderColor = toHard? "brown":"darkcyan";
+        pbi.style.backgroundColor = toHard? "#c55":"#55c";
+        st.style.backgroundColor = toHard? "rgba(200,0,0,0.2)":"rgba(0,0,200,0.2)";
+    }
+
+
 
 
 }
@@ -406,7 +454,14 @@ class ScratchBoard {
         this.scratchCheckpoint = [];
     }
 
-
+    revealScratch(placeholder){
+        let text = this.scratchBoardElement.innerHTML;
+        //console.log(text);
+        for(let key in placeholder)
+            text = text.replaceAll(key, placeholder[key]);
+        this.scratchBoardElement.innerHTML = text;
+        this.scratchCheckpoint = [];
+    }
 
     addScratch(text){
         this.scratchCheckpoint.push(this.scratchBoardElement.innerHTML.length);
@@ -421,6 +476,7 @@ class ScratchBoard {
 
     clearScratch(){
         this.scratchBoardElement.innerHTML = "";
+        this.scratchCheckpoint = [];
     }
 
 }
@@ -470,6 +526,7 @@ class Gameboard {
                 boardCopy.gotoState(0);
                 boardCopy.enableFunc(2);
                 boardCopy.card.targetElement.style.color = "pink";
+                
                 
             });
             this.disableFunc(0);            
@@ -554,8 +611,10 @@ class Gameboard {
         }
     }
 
-    showSolution(){    
-        let currentScratch = this.scratchBoard.scratchBoardElement.innerHTML;
+    showSolution(){  
+        if(this.setting.hideIntermediateResult)
+            this.scratchBoard.revealScratch(this.card.hardPlaceholders);
+        let currentScratch = this.scratchBoard.scratchBoardElement.innerHTML;                
         this.reset(false);
         this.gotoState(0);
         let solution = this.solver.optimalSolve();
@@ -602,12 +661,12 @@ class Gameboard {
                     return;
                 }
 
-                let result = this.operator.operate(this.operandHeld, this.operatorHeld, element);
+                let result = this.operator.operate(this.operandHeld, this.operatorHeld, element, this.card.hardPlaceholders);
                 if(!result)
                     return;
                 this.history.archiveCard(this.card.generateCheckpoint());
                 this.scratchBoard.addScratch(element.innerHTML);
-                let isTargetAchieved = this.card.replaceCard(this.operandHeld, element, result);
+                let [isTargetAchieved, placeholder] = this.card.replaceCard(this.operandHeld, element, result, this.setting.hideIntermediateResult);
 
                 let isCardExhausted = (this.card.availableSlots <= 1);
                 if(isTargetAchieved)
@@ -616,7 +675,6 @@ class Gameboard {
                     this.gotoState(4);
                 else
                     this.gotoState(2);
-                
                 if(isTargetAchieved){
                     this.enableFunc(2);
                     this.timer.pauseTimer();
@@ -624,13 +682,21 @@ class Gameboard {
                     element.classList.remove("selected");
                     element.classList.add("done");
                     result = "<font style='border-bottom: 3px double;'>" + result + "</font>"; 
+                }else if(this.setting.hideIntermediateResult){
+                    result = placeholder;
                 }                
                 this.scratchBoard.addScratch("=" + result + "<br>");
                 this.operandHeld = element;
-                return;
+                break;
             case 4:
                 return;
         }
+        /*////////////////////////
+        let text = `${this.card.hardPlaceholders["A"]},${this.card.hardPlaceholders["B"]},${this.card.hardPlaceholders["C"]},
+        ${this.card.hardPlaceholders["D"]},${this.card.hardPlaceholders["E"]}`;
+
+        document.getElementById("debug").innerHTML = text;
+        ////////////////////////*/
     }
 
 }
