@@ -629,7 +629,7 @@ class Gameboard {
         }
         //let solStyle = (currentScratch?`border-left: 2px solid ${color};`:"")+`color:${color};`;
         let solStyle =`color:${color};border: 2px solid;border-radius:5px;`;
-        let inner = `<table class="sol"><tr><td>${currentScratch}</td><td style="${solStyle}">${solution}</td></tr></table>`;
+        let inner = `<table class="sol" style="font-size:22px;"><tr><td>${currentScratch}</td><td style="${solStyle}">${solution}</td></tr></table>`;
         this.scratchBoard.addScratch(inner);
     }
 

@@ -2,6 +2,14 @@
 @import url('https://fonts.cdnfonts.com/css/white-bear-lake');
 @import url('https://fonts.cdnfonts.com/css/mabook');
 
+#counter {
+    opacity:0.1;
+}
+
+#counter:hover{
+    opacity:1;
+}
+
 #interface {
     text-align:center; 
     margin-left:auto; 
@@ -171,7 +179,7 @@ td.scratch {
     conic-gradient(from 90deg at 1px 1px,#0000 90deg,rgb(235, 235, 235) 0) 
     0 0/10px 10px;
     background-color: rgb(255, 255, 255);
-    font-size: 26px;
+    font-size: 28px;
     font-family: 'Mabook','Candara', sans-serif;
     line-height: 1.5;
     user-select: none;
