@@ -3,12 +3,14 @@
 @import url('https://fonts.cdnfonts.com/css/mabook');
 
 #counter {
-    opacity:0.05;
+    opacity:0.15;
+    pointer-events:none;
 }
-
+/*
 #counter:hover{
     opacity:1;
 }
+*/
 
 #interface {
     text-align:center; 
@@ -60,13 +62,35 @@ td img {
 #hardOn, #hardOff {
     display:inline-block;
     border: 2px solid grey;
-    height: 40px;
-    width: 55px;
+    height: 35px;
+    width: 45px;
     background-color: rgba(0,0,0,0.1);
     color:grey;
     border-radius: 5px;
-    margin:3px;
-    font-size:16px;
+    margin:3px 1px;
+    font-size:14px;
+    cursor: pointer;
+}
+
+.bigSmall {
+    display:inline-block;
+    border: 2px solid grey;
+    height: 35px;
+    width: 35px;
+    background-color: rgba(0,0,0,0.1);
+    color:grey;
+    border-radius: 5px;
+    margin:3px 1px;
+    padding:none;
+    font-size:12px;
+    cursor: pointer;
+}
+
+.bigSmall.selected {
+    border-color:purple;
+    color:purple;
+    font-weight: bold;
+    background-color: rgba(255,200,255,0.4);
 }
 
 
@@ -88,7 +112,7 @@ td img {
 }
 
 
-button.func, button.operator, button.number, button.comp, button.done, button.selected {
+button.func, button.operator, button.number, button.comp, button.done, .number.selected {
     display:inline-block;
     height:80px;
     width:auto;
@@ -141,7 +165,7 @@ button.done {
     color:white;
 }
 
-button.selected {
+.number.selected {
     border-bottom: 6px solid magenta;
     background-color: darkmagenta;
     color:lightpink;
@@ -205,7 +229,7 @@ td.column {
     font-family: "Century Gothic",sans-serif;
     margin:5px;
     border-radius: 5px;
-    padding:10px;
+    padding:8px;
     font-size:16px;
     line-height: 1.4;
     background-color: rgba(0,0,200,0.2);

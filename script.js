@@ -443,6 +443,18 @@ class Settings {
         st.style.backgroundColor = toHard? "rgba(200,0,0,0.2)":"rgba(0,0,200,0.2)";
     }
 
+    setBigSmall(button) {
+        let index = parseInt(button.innerHTML[0]);
+        if(button.classList.contains("selected")){
+            button.classList.remove("selected");
+            this.numBigCards[index] = false;
+        } else {
+            button.classList.add("selected");
+            this.numBigCards[index] = true;
+        }
+        
+    }
+
 
 
 
@@ -502,7 +514,21 @@ class Gameboard {
         this.func = document.getElementsByClassName("func");
         this.numBigCards = -1;
     }
-    
+
+    setNumBigCards(){
+        let pool = [];
+        for (let i = 0; i<5; i++)
+            if(this.setting.numBigCards[i])
+                pool.push(i);
+        let l = pool.length;        
+        if(l == 0){
+            this.numBigCards = -1;
+        } else {
+            let i = Math.floor(Math.random() * l);
+            this.numBigCards = pool[i];
+        }
+    }
+
     disableFunc(i){
         if(!this.func[i].classList.contains("disabled")){
             this.func[i].classList.add("disabled");
@@ -519,6 +545,7 @@ class Gameboard {
         this.scratchBoard.clearScratch();        
         if(isNewGame){
             this.timer.resetTimer();
+            this.setNumBigCards();
             this.card.setSlot(this.numBigCards, this.timer);
             this.solver.set(this.card.target, this.card.slot);
             var boardCopy = this;
@@ -700,5 +727,3 @@ class Gameboard {
     }
 
 }
-
-var board = new Gameboard();

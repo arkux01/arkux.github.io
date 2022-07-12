@@ -19,11 +19,27 @@
         <tr>
             <td colspan = "4" rowspan="5" class="scratch">
                 <div id="setting">
-                    <div style="font-weight: bold;font-size:18px;text-align: center;">Settings</div>
-                    <br><br>
-                    Hard mode: <button class="mode" id="hardOn" onclick="board.setting.setMode(true);">ON</button>
+                    <div style="font-weight: bold;font-size:18px;text-align: center;">Configuration</div>
+                    <br>
+
+                    <table align="center">
+                        <tr>
+                            <td style="text-align:right;">Hard Mode </td> <td>
+                                <button class="mode" id="hardOn" onclick="board.setting.setMode(true);">ON</button>
                                 <button disabled class="mode" id="hardOff" onclick="board.setting.setMode(false);">OFF</button>
-                    <br><br><br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right;">Big+Small </td><td>
+                                <button class="bigSmall selected" onclick="board.setting.setBigSmall(this);">0+6</button>
+                                <button class="bigSmall selected" onclick="board.setting.setBigSmall(this);">1+5</button>
+                                <button class="bigSmall selected" onclick="board.setting.setBigSmall(this);">2+4</button>
+                                <button class="bigSmall selected" onclick="board.setting.setBigSmall(this);">3+3</button>
+                                <button class="bigSmall selected" onclick="board.setting.setBigSmall(this);">4+2</button>
+                            </td>   
+                        </tr>
+                    </table>
+                    <br><br>
                     <br><br><br>                   
 
 
@@ -70,13 +86,23 @@
 
     </table>
     <div id="debug">
-        <!-- The div is solely reserved for testing purpose, and has been set invisible to the client. -->
+        <!-- The div is solely reserved for testing purpose, and has been set invisible to the client.
+            Use the following script to display debugging texts in the div.
+                document.getElementById("debug").innerHTML = text;
+        -->
+
     </div>
+    <div id="counter">
     <!-- hitwebcounter Code START -->
-    <a href="https://www.hitwebcounter.com" target="_blank" id="counter">
+    <a href="https://www.hitwebcounter.com" target="_blank">
         <img src="https://hitwebcounter.com/counter/counter.php?page=8010010&style=0008&nbdigits=5&type=ip&initCount=0" title="Free Counter" Alt="web counter"   border="0" />
-    </a>                 
+    </a>  
+    </div>
+               
      
-	<script src="script.js"></script>
+    <script src="script.js"></script>
+    <script>
+        var board = new Gameboard();
+    </script>
 </body>
 </html>
