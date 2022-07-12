@@ -567,7 +567,7 @@ class Gameboard {
             if(isZen){
                 setTimeout(function(){
                     boardCopy.enableFunc(2);
-                }, 5000)
+                }, 800)
             } else {
                 this.timer.timerInner.addEventListener("animationend", function(){
                     boardCopy.gotoState(0);
