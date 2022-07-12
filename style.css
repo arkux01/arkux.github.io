@@ -18,9 +18,9 @@
     margin-right:auto;
     border-collapse: separate;
     border-spacing: 10px;
-    border: 1px solid darkcyan;
+    border: 1px solid rgb(0,0,100);
     border-radius: 5px;
-    background-color: rgb(193, 210, 241);
+    background-color: rgb(210, 210, 241);
 }
 
 td img {
@@ -29,7 +29,7 @@ td img {
 }
 
 .progressbar {
-    border: 1px solid #55c;
+    border: 1px solid rgb(80,80,192);
     border-radius: 5px;
     background-color: rgba(127,127,127,0.2);
 }
@@ -39,7 +39,7 @@ td img {
     height: 6px;
     width: 100%;
     border-radius: 3px;
-    background-color: #55c;
+    background-color: rgb(80,80,192);
     animation: progressbar-countdown;
     animation-duration: 30s;
     animation-iteration-count: 1;
@@ -59,11 +59,11 @@ td img {
     }
 }
 
-#hardOn, #hardOff {
+#adv, #reg, #zen {
     display:inline-block;
     border: 2px solid grey;
-    height: 35px;
-    width: 45px;
+    height: 40px;
+    width: 60px;
     background-color: rgba(0,0,0,0.1);
     color:grey;
     border-radius: 5px;
@@ -75,7 +75,7 @@ td img {
 .bigSmall {
     display:inline-block;
     border: 2px solid grey;
-    height: 35px;
+    height: 40px;
     width: 35px;
     background-color: rgba(0,0,0,0.1);
     color:grey;
@@ -95,19 +95,27 @@ td img {
 
 
 
-#hardOn:disabled{
+#adv:disabled{
     border-color: red;
     color:red;
     font-weight: bold;
-    background-color: rgba(255,200,200,0.4);
+    background-color: rgba(200,155,155,0.4);
     pointer-events: none;
 }
 
-#hardOff:disabled{
+#reg:disabled{
     border-color:blue;
     color:blue;
     font-weight: bold;
-    background-color: rgba(200,200,255,0.4);
+    background-color: rgba(155,155,200,0.4);
+    pointer-events: none;
+}
+
+#zen:disabled{
+    border-color:green;
+    color:green;
+    font-weight: bold;
+    background-color: rgba(155,200,155,0.4);
     pointer-events: none;
 }
 
@@ -230,7 +238,7 @@ td.column {
     margin:5px;
     border-radius: 5px;
     padding:8px;
-    font-size:16px;
+    font-size:14px;
     line-height: 1.4;
     background-color: rgba(0,0,200,0.2);
 }

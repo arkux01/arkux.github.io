@@ -64,7 +64,7 @@ class NumberSlot {
         //this.targetElement.style.color = "yellow";
         this.resetAllSlots();
     }
-    setSlot(numBigCards, timer){
+    setSlot(numBigCards, timer, isZen = false){
         if (numBigCards == -1){
             numBigCards = Math.floor(Math.random() * 5)
         }
@@ -94,7 +94,12 @@ class NumberSlot {
             } else {
                 clearInterval(randomAnimation);
                 temp.innerHTML = target;
-                timer.startTimer();
+                if(isZen){
+
+                } else {
+                    timer.startTimer();
+                }
+                
             }
         }, 20);     
     }
@@ -418,29 +423,39 @@ class HistoryRecorder {
 class Settings {
     constructor(){
         this.isHidden = true;
-        this.numBigCards = [true,true,true,true,true];
+        this.numBigCards = [false,false,false,false,false];
         this.showGameInfo = false;
         this.showSol = false;
-        this.showTimer = false;
+        this.freezedTimer = false;
         this.showManual = false;
         this.hideIntermediateResult = false;
         this.canGoBack = true;
     }
 
-    setMode(toHard) {
+    setMode(mode) {
+        // 0 for ZEN, green
+        // 1 for REGular, blue
+        // 2 for ADVanced, red
         let buttons = document.getElementsByClassName("mode");
         let bg = document.getElementById("interface"),
             pb = document.getElementsByClassName("progressbar")[0],
             pbi = document.getElementsByClassName("inner")[0],
             st = document.getElementById("setting");
-        this.hideIntermediateResult = toHard;
-        buttons[0].disabled = toHard;
-        buttons[1].disabled = !toHard;
-        bg.style.backgroundColor = toHard? "rgb(241, 210, 210)":"rgb(193, 210, 241)";
-        bg.style.borderColor = toHard? "brown":"darkcyan";
-        pb.style.borderColor = toHard? "#c55":"#55c";
-        pbi.style.backgroundColor = toHard? "#c55":"#55c";
-        st.style.backgroundColor = toHard? "rgba(200,0,0,0.2)":"rgba(0,0,200,0.2)";
+        this.hideIntermediateResult = (mode==2);
+        this.freezedTimer = (mode==0);
+        for(let i = 0; i<3; i++){
+            buttons[i].disabled = (mode==2-i);
+        }
+        let colBg = `rgb(${210+(mode==2)*31},${210+(mode==0)*31},${210+(mode==1)*31})`,
+            colSt = `rgba(${(mode==2)*200},${(mode==0)*200},${(mode==1)*200},0.2)`,
+            colPb = `rgb(${80+(mode==2)*112},${80+(mode==0)*112},${80+(mode==1)*112})`,
+            colBorder = `rgb(${(mode==2)*100},${(mode==0)*100},${(mode==1)*100})`;
+
+        bg.style.backgroundColor = colBg;
+        bg.style.borderColor = colBorder;
+        pb.style.borderColor = colPb;
+        pbi.style.backgroundColor = colPb;
+        st.style.backgroundColor = colSt;
     }
 
     setBigSmall(button) {
@@ -541,23 +556,28 @@ class Gameboard {
         }
     }
 
-    reset(isNewGame){
+    reset(isNewGame,isZen=false){
         this.scratchBoard.clearScratch();        
         if(isNewGame){
             this.timer.resetTimer();
             this.setNumBigCards();
-            this.card.setSlot(this.numBigCards, this.timer);
+            this.card.setSlot(this.numBigCards, this.timer, isZen);
             this.solver.set(this.card.target, this.card.slot);
             var boardCopy = this;
-            this.timer.timerInner.addEventListener("animationend", function(){
-                boardCopy.gotoState(0);
-                boardCopy.enableFunc(2);
-                boardCopy.card.targetElement.style.color = "pink";
-                
-                
-            });
-            this.disableFunc(0);            
-            this.disableFunc(2);
+            if(isZen){
+                setTimeout(function(){
+                    boardCopy.enableFunc(2);
+                }, 5000)
+            } else {
+                this.timer.timerInner.addEventListener("animationend", function(){
+                    boardCopy.gotoState(0);
+                    boardCopy.enableFunc(2);
+                    boardCopy.card.targetElement.style.color = "pink";
+                });
+                            
+                this.disableFunc(2);                
+            }
+            this.disableFunc(0);
         } else {
             this.card.retry();
         }

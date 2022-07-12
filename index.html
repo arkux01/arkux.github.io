@@ -24,18 +24,19 @@
 
                     <table align="center">
                         <tr>
-                            <td style="text-align:right;">Hard Mode </td> <td>
-                                <button class="mode" id="hardOn" onclick="board.setting.setMode(true);">ON</button>
-                                <button disabled class="mode" id="hardOff" onclick="board.setting.setMode(false);">OFF</button>
+                            <td style="text-align:right;">Play Mode </td> <td style="text-align:center;">
+                                <button class="mode" id="adv" onclick="board.setting.setMode(2);">ADV</button>
+                                <button disabled class="mode" id="reg" onclick="board.setting.setMode(1);">REG</button>
+                                <button class="mode" id="zen" onclick="board.setting.setMode(0);" >ZEN</button>
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right;">Big+Small </td><td>
-                                <button class="bigSmall selected" onclick="board.setting.setBigSmall(this);">0+6</button>
-                                <button class="bigSmall selected" onclick="board.setting.setBigSmall(this);">1+5</button>
-                                <button class="bigSmall selected" onclick="board.setting.setBigSmall(this);">2+4</button>
-                                <button class="bigSmall selected" onclick="board.setting.setBigSmall(this);">3+3</button>
-                                <button class="bigSmall selected" onclick="board.setting.setBigSmall(this);">4+2</button>
+                            <td style="text-align:right;">Big+Small<br>Preference(s)</td><td style="text-align:center;">
+                                <button class="bigSmall" onclick="board.setting.setBigSmall(this);">0+6</button>
+                                <button class="bigSmall" onclick="board.setting.setBigSmall(this);">1+5</button>
+                                <button class="bigSmall" onclick="board.setting.setBigSmall(this);">2+4</button>
+                                <button class="bigSmall" onclick="board.setting.setBigSmall(this);">3+3</button>
+                                <button class="bigSmall" onclick="board.setting.setBigSmall(this);">4+2</button>
                             </td>   
                         </tr>
                     </table>
@@ -45,7 +46,7 @@
 
                 </div>
             </td>
-            <td><button onclick="board.reset(true)" class="func"><img src="icons/puzzle-piece.svg"/></button></td>
+            <td><button onclick="board.reset(true,board.setting.freezedTimer)" class="func"><img src="icons/puzzle-piece.svg"/></button></td>
             <td><button onclick="board.reset(false) "  class="func disabled"><img src="icons/eraser.svg"/></button></td>
             
 
