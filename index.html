@@ -4,34 +4,165 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <link href="https://fonts.cdnfonts.com/css/digital-7-mono" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/white-bear-lake" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/mabook" rel="stylesheet">
+    <link href="icons/countdown.ico" rel="icon">
+                
+    <title>Numbers Game - Countdown</title>
 </head>
-<body>
-    <h2>Fengxing WEI</h2>
+<body>   
+    <table id="interface">
+        <tr>
+            <td colspan = "6" class="target">---</td>
+        </tr>
+        <tr>
+            <td colspan = "4" rowspan="5" class="scratch">
+                <div id="setting">
+                    <div style="font-weight: bold;font-size:18px;text-align: center;">Configuration</div>
+                    <br>
 
-    <p>I am a year-one postgraduate pursuing the MPhil of Industrial Engineering and Decision Analytics in HKUST. Prior to this, I obtained my Bachelor's degree in Mathematics in HKUST in 2022 with concentation on statistics. My CV is available here for your potential interest.
-    </p>
-    <p>
-    My other identities include: rhythm game player/unofficial charter, Chess player, EDM/Canto-pop lover. Before the pandamic begins, I was also a bus/metro enthusiast and a casual cyclist.
-    </p>
-    <p>
-    My muscle memory contains around 120 decimal places of π (somewhere at ..6647..).
-    </p>
-    <p>
-    The remaining bio is not trivial, but still left for readers as an exercise.
-    </p>
-<!--
-    <h4>Research</h4>
+                    <table align="center">
+                        <tr>
+                            <td style="text-align:right;">Play Mode </td> <td style="text-align:center;">
+                                <button class="mode" id="adv" onclick="board.setting.setMode(2);">ADV</button>
+                                <button disabled class="mode" id="reg" onclick="board.setting.setMode(1);">REG</button>
+                                <button class="mode" id="zen" onclick="board.setting.setMode(0);" >ZEN</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right;">Big+Small<br>Preference(s)</td><td style="text-align:center;">
+                                <button class="bigSmall" onclick="board.setting.setBigSmall(this);">0+6</button>
+                                <button class="bigSmall" onclick="board.setting.setBigSmall(this);">1+5</button>
+                                <button class="bigSmall" onclick="board.setting.setBigSmall(this);">2+4</button>
+                                <button class="bigSmall" onclick="board.setting.setBigSmall(this);">3+3</button>
+                                <button class="bigSmall" onclick="board.setting.setBigSmall(this);">4+2</button>
+                            </td>   
+                        </tr>
+                    </table>
+                    <br><br>
+                    <br><br><br>                   
 
-    <h4>Teaching</h4>
--->
-    <h4>Courseworks</h4>
 
-    <h4>Miscellaneous</h4>
+                </div>
+            </td>
+            <td><button onclick="board.reset(true,board.setting.freezedTimer)" class="func"><img src="icons/puzzle-piece.svg"/></button></td>
+            <td><button onclick="board.reset(false) "  class="func disabled"><img src="icons/eraser.svg"/></button></td>
+            
 
-    <h4>Contact</h4>
+
+        </tr>
+        <tr>
+            <td><button onclick = "board.showSolution()" class="func disabled"><img src="icons/lightbulb.svg"/></button></td>
+            <td><button onclick = "board.undo(this)" class="func disabled"><img src="icons/backward.svg"/></button></td> 
+        </tr>
+        <tr>
+            <td colspan = "2" class="progressbar" id="pb"><div class="inner" id="pbi"></div></td>
+        </tr>
+        <tr>
+            <td><button class="operator disabled" onclick = "board.onclick(this)" >×</button></td>
+            <td><button class="operator disabled" onclick = "board.onclick(this)">÷</button></td>
+        </tr>
+        <tr>
+            <td><button class="operator disabled" onclick = "board.onclick(this)">+</button></td>
+            <td><button class="operator disabled" onclick = "board.onclick(this)">-</button></td>
+        </tr>
+
+        <tr>
+            <td><button class="number disabled" onclick = "board.onclick(this)"></button></td>
+            <td><button class="number disabled" onclick = "board.onclick(this)"></button></td>
+            <td><button class="number disabled" onclick = "board.onclick(this)"></button></td>
+            <td><button class="number disabled" onclick = "board.onclick(this)"></button></td>
+            <td><button class="number disabled" onclick = "board.onclick(this)"></button></td>
+            <td><button class="number disabled" onclick = "board.onclick(this)"></button></td>
+        </tr>
+
+        <!--
+        <tr id="setting">
+            <td colspan="6">
+                123
+            </td>
+        </tr>            
+        -->
+
+    </table>
+
+    <div id="rules">
+        <h3>Rules</h3>
+        Achieve the yellow target using the blue cards and basic arithmetic operations.<br>
+        E.g. for target <span class="t">385</span> and cards <span class="c">75</span><span class="c">25</span><span class="c">3</span><span class="c">2</span><span class="c">4</span><span class="c">8</span>, we have<p style="text-align: center;">
+        <span class="c">8</span>-<span class="c">3</span>=<span class="c r">5</span> , <span class="c">2</span>+<span class="c">75</span>=<span class="c r">77</span> , <span class="c r">77</span>×<span class="c r">5</span>=<span class="c r">385</span></p>as desired. Please be kindly reminded that:
+        <ul>
+            <li>
+                <b>It is not necessary to use up all six cards</b>, while each card cannot be used for more than once.
+            </li>
+            <li>
+                <b>All intermediate results must be positive integers</b>. Operation that results in zero, a negative number or a fraction will not be processed.
+            </li>
+            <li>
+                <b>It is not guaranteed that the target number can be achieved exactly</b>. If you cannot solve for the target, try as close as you can.
+            </li>
+        </ul>
+        <h3>Customizations</h3>
+        You may choose the play mode prior to the first game, where
+        <ul>
+            <li>
+                <span class="m adv">ADV</span> has a time limit of <b>30 seconds per round</b>, and <b>intermediate values will be hidden</b>.
+            </li>
+            <li>
+                <span class="m reg">REG</span> also limits to <b>30 seconds per round</b>, but intermediate values will be displayed.
+            </li>
+            <li>
+                <span class="m zen">ZEN</span> neither limits the time nor hides the intermediate values.
+            </li>
+        </ul>
+        Cards will be drawn according to user preference(s), if any. Here, <b>X+Y</b> means 
+        <ul>
+            <li>
+                <b>X</b> card(s) will be drawn from the big-number pool<span class="c">25</span><span class="c">50</span><span class="c">75</span><span class="c">100</span>, and
+            </li>
+            <li>
+                <b>Y</b> card(s) from the small-number pool <span class="c">1</span><span class="c">1</span><span class="c">2</span><span class="c">2</span><span class="c">3</span><span class="c">3</span>...<span class="c">10</span><span class="c">10</span>.
+            </li>
+        </ul>
+        <br>
+
+        All configurations will reset when the page reloads.
+        <h3>Legends</h3>
+        <table style="width:100%">
+            <tr>
+                <td><img src="icons/puzzle-piece.svg"/></td><td>Start a new game</td>
+                <td><img src="icons/eraser.svg"/></td><td>Clear scratch</td>
+            </tr>
+            <tr>
+                <td><img src="icons/lightbulb.svg"/></td><td>Show suggested solution</td>
+                <td><img src="icons/backward.svg"/></td><td>Undo scratch</td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div id="debug">
+        <!-- The div is solely reserved for testing purpose, and has been set invisible to the client.
+            Use the following script to display debugging texts in the div.
+                document.getElementById("debug").innerHTML = text;
+        -->
+
+    </div>
 
 
+
+    <div id="counter">
+    <!-- hitwebcounter Code START -->
+    <a href="https://www.hitwebcounter.com" target="_blank">
+        <img src="https://hitwebcounter.com/counter/counter.php?page=8010010&style=0008&nbdigits=5&type=ip&initCount=0" title="Free Counter" Alt="web counter"   border="0" />
+    </a>  
+    </div>
+               
+     
     <script src="script.js"></script>
+    <script>
+        var board = new Gameboard();
+    </script>
 </body>
 </html>
