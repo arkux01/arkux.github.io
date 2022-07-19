@@ -87,27 +87,41 @@
 
     </table>
     <br>
-    <div id="rules">
-        <h3>Rules</h3>
+    <details id="rules">
+        <summary id="instructions">
+            Instructions
+        </summary>
+        <h3>Legends</h3>
+        <table style="width:100%">
+            <tr>
+                <td><img src="icons/puzzle-piece.svg"/></td><td>Start a new game</td>
+                <td><img src="icons/eraser.svg"/></td><td>Clear scratch</td>
+            </tr>
+            <tr>
+                <td><img src="icons/lightbulb.svg"/></td><td>Show a suggested solution</td>
+                <td><img src="icons/backward.svg"/></td><td>Undo scratch</td>
+            </tr>
+        </table>
+        <h3>Game Rules</h3>
         Achieve the yellow target using the blue cards and basic arithmetic operations.<br>
         E.g. for target <span class="t">385</span> and cards <span class="c">75</span><span class="c">25</span><span class="c">3</span><span class="c">2</span><span class="c">4</span><span class="c">8</span>, we have<p style="text-align: center;">
         <span class="c">8</span>-<span class="c">3</span>=<span class="c r">5</span> , <span class="c">2</span>+<span class="c">75</span>=<span class="c r">77</span> , <span class="c r">77</span>×<span class="c r">5</span>=<span class="c r">385</span></p>as desired. Please be kindly reminded that:
         <ul>
             <li>
-                <b>It is not necessary to use up all six cards</b>, while each card cannot be used for more than once.
+                <b>It is NOT necessary to use up all six cards</b>, as long as each card is not used for more than once.
             </li>
             <li>
-                <b>All intermediate results must be positive integers</b>. Operation that results in zero, a negative number or a fraction will not be processed.
+                <b>All intermediate answers must be positive integers</b>. Operation that results in a zero / a negative number / a fraction will not be processed.
             </li>
             <li>
                 <b>It is not guaranteed that the target number can be achieved exactly</b>. If you cannot solve for the target, try as close as you can.
             </li>
         </ul>
-        <h3>Customizations</h3>
-        You may choose the play mode prior to the first game, where
+        <h3>Configurations</h3>
+        You may choose the mode of playing before your first round.
         <ul>
             <li>
-                <span class="m adv">ADV</span> has a time limit of <b>30 seconds per round</b>, and <b>intermediate values will be hidden</b>.
+                <span class="m adv">ADV</span> has a time limit of <b>30 seconds per round</b>, and <b>intermediate values will be hidden</b>, i.e. replaced by alphabetical placeholders.
             </li>
             <li>
                 <span class="m reg">REG</span> also limits to <b>30 seconds per round</b>, but intermediate values will be displayed.
@@ -116,7 +130,7 @@
                 <span class="m zen">ZEN</span> neither limits the time nor hides the intermediate values.
             </li>
         </ul>
-        Cards will be drawn according to user preference(s), if any. Here, <b>X+Y</b> means 
+        Cards will be drawn according to user preference(s), if any. Option <b>X+Y</b> means 
         <ul>
             <li>
                 <b>X</b> card(s) will be drawn from the big-number pool<span class="c">25</span><span class="c">50</span><span class="c">75</span><span class="c">100</span>, and
@@ -125,22 +139,19 @@
                 <b>Y</b> card(s) from the small-number pool <span class="c">1</span><span class="c">1</span><span class="c">2</span><span class="c">2</span><span class="c">3</span><span class="c">3</span>...<span class="c">10</span><span class="c">10</span>.
             </li>
         </ul>
+        All these configurations will be reset when the page reloads.
+        <h3>Disclaimer</h3>
+        The Numbers Game is originated from the British Game show <a href="https://en.wikipedia.org/wiki/Countdown_(game_show)">Countdown</a>. This page is created for personal entertainment only.
         <br>
-
-        All configurations will reset when the page reloads.
-        <h3>Legends</h3>
-        <table style="width:100%">
-            <tr>
-                <td><img src="icons/puzzle-piece.svg"/></td><td>Start a new game</td>
-                <td><img src="icons/eraser.svg"/></td><td>Clear scratch</td>
-            </tr>
-            <tr>
-                <td><img src="icons/lightbulb.svg"/></td><td>Show suggested solution</td>
-                <td><img src="icons/backward.svg"/></td><td>Undo scratch</td>
-            </tr>
-        </table>
-
-    </div>
+        Please feel free to send feedbacks to <a href="mailto:fxwei@connect.ust.hk">fxwei@connect.ust.hk</a>.
+        <br>
+        <div id="counter">
+        <!-- hitwebcounter Code START -->
+        <a href="https://www.hitwebcounter.com" target="_blank">
+            <img src="https://hitwebcounter.com/counter/counter.php?page=8010010&style=0008&nbdigits=5&type=ip&initCount=0" title="Free Counter" Alt="web counter"   border="0" />
+        </a>  
+        </div>
+    </details>
 
     <div id="debug">
         <!-- The div is solely reserved for testing purpose, and has been set invisible to the client.
@@ -152,12 +163,7 @@
 
 
 
-    <div id="counter">
-    <!-- hitwebcounter Code START -->
-    <a href="https://www.hitwebcounter.com" target="_blank">
-        <img src="https://hitwebcounter.com/counter/counter.php?page=8010010&style=0008&nbdigits=5&type=ip&initCount=0" title="Free Counter" Alt="web counter"   border="0" />
-    </a>  
-    </div>
+
                
      
     <script src="script.js"></script>
