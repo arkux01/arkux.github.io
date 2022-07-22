@@ -19,7 +19,7 @@
         <tr>
             <td colspan = "4" rowspan="5" class="scratch">
                 <div id="setting">
-                    <div style="font-weight: bold;font-size:18px;text-align: center;">Configuration</div>
+                    <div style="font-weight: bold;font-size:18px;text-align: center;"> <img src="icons/wrench.svg" style="height: 1em;display: inline-block;padding: 0px 5px;"/> Configurations</div>
                     <br>
 
                     <table align="center">
@@ -47,34 +47,34 @@
                 </div>
             </td>
             <td><button onclick="board.reset(true,board.setting.freezedTimer)" class="func"><img src="icons/puzzle-piece.svg"/></button></td>
-            <td><button onclick="board.reset(false) "  class="func disabled"><img src="icons/eraser.svg"/></button></td>
+            <td><button onclick = "board.showSolution()" class="func disabled"><img src="icons/lightbulb.svg"/></button></td>
             
 
 
         </tr>
         <tr>
-            <td><button onclick = "board.showSolution()" class="func disabled"><img src="icons/lightbulb.svg"/></button></td>
-            <td><button onclick = "board.undo(this)" class="func disabled"><img src="icons/backward.svg"/></button></td> 
+            <td><button onclick="board.reset(false) "  class="func disabled"><img src="icons/trash-can.svg"/></button></td>
+            <td><button onclick = "board.undo(this)" class="func disabled"><img src="icons/eraser.svg"/></button></td> 
         </tr>
         <tr>
             <td colspan = "2" class="progressbar" id="pb"><div class="inner" id="pbi"></div></td>
         </tr>
         <tr>
-            <td><button class="operator disabled" onclick = "board.onclick(this)" >×</button></td>
-            <td><button class="operator disabled" onclick = "board.onclick(this)">÷</button></td>
+            <td><button class="operator disabled">×</button></td>
+            <td><button class="operator disabled">÷</button></td>
         </tr>
         <tr>
-            <td><button class="operator disabled" onclick = "board.onclick(this)">+</button></td>
-            <td><button class="operator disabled" onclick = "board.onclick(this)">-</button></td>
+            <td><button class="operator disabled">+</button></td>
+            <td><button class="operator disabled">-</button></td>
         </tr>
 
         <tr>
-            <td><button class="number disabled" onclick = "board.onclick(this)"></button></td>
-            <td><button class="number disabled" onclick = "board.onclick(this)"></button></td>
-            <td><button class="number disabled" onclick = "board.onclick(this)"></button></td>
-            <td><button class="number disabled" onclick = "board.onclick(this)"></button></td>
-            <td><button class="number disabled" onclick = "board.onclick(this)"></button></td>
-            <td><button class="number disabled" onclick = "board.onclick(this)"></button></td>
+            <td><button class="number disabled"></button></td>
+            <td><button class="number disabled"></button></td>
+            <td><button class="number disabled"></button></td>
+            <td><button class="number disabled"></button></td>
+            <td><button class="number disabled"></button></td>
+            <td><button class="number disabled"></button></td>
         </tr>
 
         <!--
@@ -89,17 +89,17 @@
     <br>
     <details id="rules">
         <summary id="instructions">
-            Instructions
+            <img src="icons/circle-info.svg" style="height: 1em;display: inline-block;padding: 0px 5px;"/> <span style="font-size:20px;font-weight: bold;">Instructions</span>
         </summary>
         <h3>Legends</h3>
         <table style="width:100%">
             <tr>
-                <td><img src="icons/puzzle-piece.svg"/></td><td>Start a new game</td>
-                <td><img src="icons/eraser.svg"/></td><td>Clear scratch</td>
+                <td><img src="icons/puzzle-piece.svg"/></td><td>New round</td>
+                <td><img src="icons/lightbulb.svg"/></td><td>Suggested solution</td>
             </tr>
             <tr>
-                <td><img src="icons/lightbulb.svg"/></td><td>Show a suggested solution</td>
-                <td><img src="icons/backward.svg"/></td><td>Undo scratch</td>
+                <td><img src="icons/trash-can.svg"/></td><td>Clear scratch</td>
+                <td><img src="icons/eraser.svg"/></td><td>Undo scratch</td>
             </tr>
         </table>
         <h3>Game Rules</h3>
@@ -118,7 +118,7 @@
             </li>
         </ul>
         <h3>Configurations</h3>
-        You may choose the mode of playing before your first round.
+        Users may choose the mode of playing before their first round.
         <ul>
             <li>
                 <span class="m adv">ADV</span> has a time limit of <b>30 seconds per round</b>, and <b>intermediate values will be hidden</b>, i.e. replaced by alphabetical placeholders.
@@ -130,21 +130,28 @@
                 <span class="m zen">ZEN</span> neither limits the time nor hides the intermediate values.
             </li>
         </ul>
-        Cards will be drawn according to user preference(s), if any. Option <b>X+Y</b> means 
+        Cards are drawn according to preference(s), if any. Preference <b>X+Y</b> means 
         <ul>
             <li>
                 <b>X</b> card(s) will be drawn from the big-number pool<span class="c">25</span><span class="c">50</span><span class="c">75</span><span class="c">100</span>, and
             </li>
             <li>
-                <b>Y</b> card(s) from the small-number pool <span class="c">1</span><span class="c">1</span><span class="c">2</span><span class="c">2</span><span class="c">3</span><span class="c">3</span>...<span class="c">10</span><span class="c">10</span>.
+                <b>Y</b> card(s) from the small-number pool <span class="c">1</span><span class="c">1</span><span class="c">2</span><span class="c">2</span>...<span class="c">10</span><span class="c">10</span>.
             </li>
         </ul>
         All these configurations will be reset when the page reloads.
-        <h3>Disclaimer</h3>
-        The Numbers Game is originated from the British game show <a href="https://en.wikipedia.org/wiki/Countdown_(game_show)">Countdown</a>. This page is created for personal entertainment only.
-        <br>
-        Please feel free to send feedbacks to <a href="mailto:fxwei@connect.ust.hk">fxwei@connect.ust.hk</a>.
-        <br>
+        <h3>About</h3>
+        <ul>
+            <li>
+                The Numbers Game is originated from the British game show <a href="https://en.wikipedia.org/wiki/Countdown_(game_show)">Countdown</a>.
+            </li>
+            <li>
+                This page is created for personal entertainment only. It is last updated at <span id="lastupdate"></span>.
+            </li>
+            <li>
+                User's feedbacks are always welcomed. Please kindly forward any bug report / feedback / suggestion to <a href="mailto:fxwei@connect.ust.hk">fxwei@connect.ust.hk</a>.
+            </li>
+        </ul>
         <div id="counter">
         <!-- hitwebcounter Code START -->
         <a href="https://www.hitwebcounter.com" target="_blank">
@@ -168,7 +175,16 @@
      
     <script src="script.js"></script>
     <script>
+        document.getElementById("lastupdate").innerHTML = document.lastModified;
         var board = new Gameboard();
+        for(let n of board.card.slotElement)
+            n.addEventListener("click", function(){
+                board.onclick(n);
+            });
+        for(let o of board.operator.operatorElement)
+            o.addEventListener("click", function(){
+                board.onclick(o);
+            });
     </script>
 </body>
 </html>

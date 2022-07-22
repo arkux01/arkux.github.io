@@ -14,6 +14,7 @@ class Timer {
     constructor(){
         this.timerElement = document.getElementById("pb");
         this.timerInner = document.getElementById("pbi");
+        this.submitBox = "";
     }
 
     startTimer() {
@@ -567,23 +568,23 @@ class Gameboard {
             var boardCopy = this;
             if(isZen){
                 setTimeout(function(){
-                    boardCopy.enableFunc(2);
+                    boardCopy.enableFunc(1);
                 }, 800)
             } else {
                 this.timer.timerInner.addEventListener("animationend", function(){
                     boardCopy.gotoState(0);
-                    boardCopy.enableFunc(2);
+                    boardCopy.enableFunc(1);
                     boardCopy.card.targetElement.style.color = "pink";
                 });
                             
-                this.disableFunc(2);                
+                this.disableFunc(1);                
             }
             this.disableFunc(0);
         } else {
             this.card.retry();
         }
 
-        this.disableFunc(1); 
+        this.disableFunc(2); 
         this.disableFunc(3); 
         this.gotoState(1);
     }
@@ -618,7 +619,7 @@ class Gameboard {
         }
         
         if(this.card.availableSlots==6){
-            this.disableFunc(1); 
+            this.disableFunc(2); 
             this.disableFunc(3); 
         }
     }
@@ -634,8 +635,8 @@ class Gameboard {
                 this.operandHeld = false;
                 this.operatorHeld = false; 
                 this.enableFunc(0); 
-                this.disableFunc(1); 
-                this.disableFunc(2);
+                this.disableFunc(2); 
+                this.disableFunc(1);
                 this.disableFunc(3); 
                 
                 break;
@@ -652,7 +653,7 @@ class Gameboard {
 
             case 3: case 4:
                 this.enableFunc(3); 
-                this.enableFunc(1);
+                this.enableFunc(2);
                 this.disableFunc(0);                
                 this.operator.disableAllOperators();          
                 break;
@@ -679,6 +680,10 @@ class Gameboard {
         let solStyle =`color:${color};border: 2px solid;border-radius:5px;`;
         let inner = `<table class="sol" style="font-size:22px;"><tr><td>${currentScratch}</td><td style="${solStyle}">${solution}</td></tr></table>`;
         this.scratchBoard.addScratch(inner);
+    }
+
+    submit(){
+
     }
 
     onclick(element){
@@ -724,7 +729,7 @@ class Gameboard {
                 else
                     this.gotoState(2);
                 if(isTargetAchieved){
-                    this.enableFunc(2);
+                    this.enableFunc(1);
                     this.timer.pauseTimer();
                     element.classList.remove("disabled");
                     element.classList.remove("selected");

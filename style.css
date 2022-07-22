@@ -7,7 +7,7 @@ body::-webkit-scrollbar {
 }
 
 #counter {
-    opacity:0.15;
+    opacity:0.35;
     pointer-events:none;
 }
 
