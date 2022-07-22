@@ -55,6 +55,9 @@
         <tr>
             <td><button onclick="board.reset(false) "  class="func disabled"><img src="icons/trash-can.svg"/></button></td>
             <td><button onclick = "board.undo(this)" class="func disabled"><img src="icons/eraser.svg"/></button></td> 
+            <!--
+                <td><button onclick = "board.submit()" class="func disabled"><img src="icons/upload.svg"/></button></td> 
+            -->
         </tr>
         <tr>
             <td colspan = "2" class="progressbar" id="pb"><div class="inner" id="pbi"></div></td>
@@ -86,10 +89,10 @@
         -->
 
     </table>
-    <br>
-    <details id="rules">
+
+    <details id="rules" >
         <summary id="instructions">
-            <img src="icons/circle-info.svg" style="height: 1em;display: inline-block;padding: 0px 5px;"/> <span style="font-size:20px;font-weight: bold;">Instructions</span>
+            <img src="icons/circle-info.svg" style="height: 1em;display: inline-block;padding: 0px 5px;"/> <span style="font-size:18px;font-weight: bold;font-family: 'Century Gothic',sans-serif;">Instructions</span>
         </summary>
         <h3>Legends</h3>
         <table style="width:100%">
@@ -146,10 +149,10 @@
                 The Numbers Game is originated from the British game show <a href="https://en.wikipedia.org/wiki/Countdown_(game_show)">Countdown</a>.
             </li>
             <li>
-                This page is created for personal entertainment only. It is last updated at <span id="lastupdate"></span>.
+                This page is created for personal entertainment only. It's last update was at <span id="lastupdate"></span>.
             </li>
             <li>
-                User's feedbacks are always welcomed. Please kindly forward any bug report / feedback / suggestion to <a href="mailto:fxwei@connect.ust.hk">fxwei@connect.ust.hk</a>.
+                User feedback is always welcomed. Please forward your comments / questions / suggestions to <a href="mailto:fxwei@connect.ust.hk">fxwei@connect.ust.hk</a>.
             </li>
         </ul>
         <div id="counter">
@@ -159,6 +162,7 @@
         </a>  
         </div>
     </details>
+
 
     <div id="debug">
         <!-- The div is solely reserved for testing purpose, and has been set invisible to the client.

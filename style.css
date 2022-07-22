@@ -8,7 +8,12 @@ body::-webkit-scrollbar {
 
 #counter {
     opacity:0.35;
+    height: 10px;
     pointer-events:none;
+    display: inline-block;
+}
+#counter img{
+    max-height: 100%;
 }
 
 #interface {
@@ -27,6 +32,7 @@ h3{
     color:white;
     text-shadow: 1px 1px 1px black;
     text-align: center;
+    font-family: "Century Gothic",sans-serif;
     margin:6px;
 }
 
@@ -151,6 +157,7 @@ td img {
 
 
 button.func, button.operator, button.number, button.comp, button.done, .number.selected {
+    vertical-align: top;
     display:inline-block;
     height:80px;
     width:auto;
@@ -280,15 +287,15 @@ td.column {
 
 #rules {
     font-family: sans-serif;
-    font-weight: 130%;
-    width: 560px;
     margin-left:auto; 
     margin-right:auto;
-    background:rgb(220,220,220);
+    text-align: left;
+    font-size: 14px;
+    width: 550px;
+    background:rgb(50,50,50,0.1);
     margin-top:5px;
     padding:4px;
     border-radius: 5px;
-    display: block;
 }
 
 .t{
